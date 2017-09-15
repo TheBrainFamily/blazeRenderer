@@ -1,0 +1,26 @@
+<head>
+  <title>renderBlaze</title>
+</head>
+
+<body>
+  <h1 name='testTemplate'>Welcome to Meteor!</h1>
+
+  {{> testTemplate}}
+</body>
+
+<template name='testTemplate'>
+  <div>
+    <div>{{hello}} {{nope}}</div>
+    {{> nestedTemplate }}
+    <ul>
+    {{#each favoriteColors}}
+      <li>{{ color }}</li>
+    {{/each}}
+  </ul>
+  </div>
+</template>
+
+<template name='nestedTemplate'>
+  <div>this is from nested template</div>
+</template>
+
