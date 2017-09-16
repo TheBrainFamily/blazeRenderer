@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`template  renders properly 1`] = `
+------------HTML PREVIEW---------------
+<div>
+    <div>from a function</div>
+
+    <div>this is from nested template</div>
+
+    <ul>
+
+        is it me you looking for?
+
+        <li>yellow</li>
+
+
+        is it me you looking for?
+
+        <li>blue</li>
+
+
+        is it me you looking for?
+
+        <li>red</li>
+
+
+
+
+        <p>Should show up - (unless false)</p>
+
+
+        <p>but this should show up (else)</p>
+
+    </ul>
+</div>
+`;

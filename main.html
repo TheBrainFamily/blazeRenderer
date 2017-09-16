@@ -1,26 +1,41 @@
 <head>
-  <title>renderBlaze</title>
+    <title>renderBlaze</title>
 </head>
 
 <body>
-  <h1 name='testTemplate'>Welcome to Meteor!</h1>
+<h1 name='testTemplate'>Welcome to Meteor!</h1>
 
-  {{> testTemplate}}
+{{> testTemplate}}
 </body>
 
 <template name='testTemplate'>
-  <div>
-    <div>{{hello}} {{nope}}</div>
-    {{> nestedTemplate }}
-    <ul>
-    {{#each favoriteColors}}
-      <li>{{ color }}</li>
-    {{/each}}
-  </ul>
-  </div>
+    <div>
+        <div>{{nope}}</div>
+        {{> nestedTemplate }}
+        <ul>
+            {{#each favoriteColors}}
+                {{ hello}}
+                {{> colorRow }}
+            {{/each}}
+            {{#if thisIsTrue}}
+                This is true (if true)
+            {{/if}}
+            {{#unless thisIsNotTrue}}
+                <p>Should show up - (unless false)</p>
+            {{/unless}}
+            {{#if thisIsNotTrue}}
+                <p>This shouldn't show up (if false)</p>
+            {{else}}
+                <p>but this should show up (else)</p>
+            {{/if}}
+        </ul>
+    </div>
 </template>
 
 <template name='nestedTemplate'>
-  <div>this is from nested template</div>
+    <div>this is from nested template</div>
 </template>
 
+<template name="colorRow">
+    <li>{{ color }}</li>
+</template>

@@ -1,11 +1,12 @@
+import _ from 'underscore'
 BlazeMine = {}
 
 class ReactiveVar {
   set(value) {
     this.value = value;
   }
-  get(value) {
-    return value;
+  get() {
+    return this.value;
   }
 }
 
@@ -246,10 +247,19 @@ BlazeMine.View.prototype.lookup = function (name, _options) {
     return helper;
   }
 
+  const parentData =  _.isFunction(BlazeMine._parentData(1, true /*_functionWrapped*/)) ?  BlazeMine._parentData(1, true /*_functionWrapped*/)() : {}
+  if (name === "hello") {
+      console.log("Gandecki parentData", parentData);
+  }
   // 5. look up in a data context
   return function () {
     var isCalledAsFunction = (arguments.length > 0);
-    var data = BlazeMine.getData();
+    //
+    var data = Object.assign({}, parentData, BlazeMine.getData());
+    if (name === "hello") {
+        console.log("Gandecki data", data);
+        console.log("Gandecki name", name);
+    }
     var x = data && data[name];
     if (! x) {
       if (lookupTemplate) {
@@ -304,6 +314,11 @@ BlazeMine.View.prototype.lookupTemplate = function (name) {
   return this.lookup(name, {template:true});
 };
 
+BlazeMine._calculateCondition = function (cond) {
+    if (cond instanceof Array && cond.length === 0)
+        cond = false;
+    return !! cond;
+};
 
 export default BlazeMine.With = function (data, contentFunc) {
   var view = BlazeMine.View('with', contentFunc);
@@ -382,10 +397,10 @@ BlazeMine.If = function (conditionFunc, contentFunc, elseFunc, _not) {
   });
   view.__conditionVar = conditionVar;
   view.onViewCreated(function () {
-    this.autorun(function () {
+    // this.autorun(function () {
       var cond = BlazeMine._calculateCondition(conditionFunc());
       conditionVar.set(_not ? (! cond) : cond);
-    }, this.parentView, 'condition');
+    // }, this.parentView, 'condition');
   });
 
   return view;
@@ -423,7 +438,9 @@ function isArray(arr) {
   return arr instanceof Array || _.isArray(arr);
 }
 
-var idStringify = function() { console.error("shouldnt be using this")};
+var idStringify = function() {
+  // console.error("shouldnt be using this")
+};
 
 ObserveSequence = {
   _suppressWarnings: 0,
@@ -583,14 +600,12 @@ seqChangedToArray = function (lastSeqArray, array, callbacks) {
     if (idsUsed[idString]) {
       if (item && typeof item === 'object' && '_id' in item)
         warn("duplicate id " + id + " in", array);
-      id = Random.id();
+      id = `${Math.random()}`;
     } else {
       idsUsed[idString] = true;
     }
-
     return { _id: id, item: item };
   });
-
   return seqArray;
 };
 
@@ -680,7 +695,7 @@ BlazeMine.Each = function (argFunc, contentFunc, elseFunc) {
     // We evaluate argFunc in an autorun to make sure
     // Blaze.currentView is always set when it runs (rather than
     // passing argFunc straight to ObserveSequence).
-    eachView.autorun(function () {
+    // eachView.autorun(function () {
       // argFunc can return either a sequence as is or a wrapper object with a
       // _sequence and _variable fields set.
       var arg = argFunc();
@@ -688,22 +703,18 @@ BlazeMine.Each = function (argFunc, contentFunc, elseFunc) {
         eachView.variableName = arg._variable || null;
         arg = arg._sequence;
       }
-
       eachView.argVar.set(arg);
-    }, eachView.parentView, 'collection');
+    // }, eachView.parentView, 'collection');
 
-    eachView.stopHandle = ObserveSequence.observe(function () {
-      return eachView.argVar.get();
-    }, {
-      addedAt: function (id, item, index) {
-        Tracker.nonreactive(function () {
+
+      eachView.argVar.get().forEach(function(item, index) {
           var newItemView;
           if (eachView.variableName) {
-            // new-style #each (as in {{#each item in items}})
-            // doesn't create a new data context
-            newItemView = Blaze.View('item', eachView.contentFunc);
+              // new-style #each (as in {{#each item in items}})
+              // doesn't create a new data context
+              newItemView = BlazeMine.View('item', eachView.contentFunc);
           } else {
-            newItemView = Blaze.With(item, eachView.contentFunc);
+              newItemView = BlazeMine.With(item, eachView.contentFunc);
           }
 
           eachView.numItems++;
@@ -711,87 +722,125 @@ BlazeMine.Each = function (argFunc, contentFunc, elseFunc) {
           var bindings = {};
           bindings['@index'] = index;
           if (eachView.variableName) {
-            bindings[eachView.variableName] = item;
+              bindings[eachView.variableName] = item;
           }
-          Blaze._attachBindingsToView(bindings, newItemView);
+          BlazeMine._attachBindingsToView(bindings, newItemView);
 
           if (eachView.expandedValueDep) {
-            eachView.expandedValueDep.changed();
+              eachView.expandedValueDep.changed();
           } else if (eachView._domrange) {
-            if (eachView.inElseMode) {
-              eachView._domrange.removeMember(0);
-              eachView.inElseMode = false;
-            }
+              if (eachView.inElseMode) {
+                  eachView._domrange.removeMember(0);
+                  eachView.inElseMode = false;
+              }
 
-            var range = Blaze._materializeView(newItemView, eachView);
-            eachView._domrange.addMember(range, index);
-            updateIndices(index);
+              var range = BlazeMine._materializeView(newItemView, eachView);
+              eachView._domrange.addMember(range, index);
+              updateIndices(index);
           } else {
-            eachView.initialSubviews.splice(index, 0, newItemView);
+              eachView.initialSubviews.splice(index, 0, newItemView);
           }
-        });
-      },
-      removedAt: function (id, item, index) {
-        Tracker.nonreactive(function () {
-          eachView.numItems--;
-          if (eachView.expandedValueDep) {
-            eachView.expandedValueDep.changed();
-          } else if (eachView._domrange) {
-            eachView._domrange.removeMember(index);
-            updateIndices(index);
-            if (eachView.elseFunc && eachView.numItems === 0) {
-              eachView.inElseMode = true;
-              eachView._domrange.addMember(
-                Blaze._materializeView(
-                  Blaze.View('each_else',eachView.elseFunc),
-                  eachView), 0);
-            }
-          } else {
-            eachView.initialSubviews.splice(index, 1);
-          }
-        });
-      },
-      changedAt: function (id, newItem, oldItem, index) {
-        Tracker.nonreactive(function () {
-          if (eachView.expandedValueDep) {
-            eachView.expandedValueDep.changed();
-          } else {
-            var itemView;
-            if (eachView._domrange) {
-              itemView = eachView._domrange.getMember(index).view;
-            } else {
-              itemView = eachView.initialSubviews[index];
-            }
-            if (eachView.variableName) {
-              itemView._scopeBindings[eachView.variableName].set(newItem);
-            } else {
-              itemView.dataVar.set(newItem);
-            }
-          }
-        });
-      },
-      movedTo: function (id, item, fromIndex, toIndex) {
-        Tracker.nonreactive(function () {
-          if (eachView.expandedValueDep) {
-            eachView.expandedValueDep.changed();
-          } else if (eachView._domrange) {
-            eachView._domrange.moveMember(fromIndex, toIndex);
-            updateIndices(
-              Math.min(fromIndex, toIndex), Math.max(fromIndex, toIndex));
-          } else {
-            var subviews = eachView.initialSubviews;
-            var itemView = subviews[fromIndex];
-            subviews.splice(fromIndex, 1);
-            subviews.splice(toIndex, 0, itemView);
-          }
-        });
-      }
+      })
+    eachView.stopHandle = ObserveSequence.observe(function () {
+      return eachView.argVar.get();
+    }, {
+      // addedAt: function (id, item, index) {
+      //   Tracker.nonreactive(function () {
+      //     var newItemView;
+      //     if (eachView.variableName) {
+      //       // new-style #each (as in {{#each item in items}})
+      //       // doesn't create a new data context
+      //       newItemView = BlazeMine.View('item', eachView.contentFunc);
+      //     } else {
+      //       newItemView = BlazeMine.With(item, eachView.contentFunc);
+      //     }
+      //
+      //     eachView.numItems++;
+      //
+      //     var bindings = {};
+      //     bindings['@index'] = index;
+      //     if (eachView.variableName) {
+      //       bindings[eachView.variableName] = item;
+      //     }
+      //     BlazeMine._attachBindingsToView(bindings, newItemView);
+      //
+      //     if (eachView.expandedValueDep) {
+      //       eachView.expandedValueDep.changed();
+      //     } else if (eachView._domrange) {
+      //       if (eachView.inElseMode) {
+      //         eachView._domrange.removeMember(0);
+      //         eachView.inElseMode = false;
+      //       }
+      //
+      //       var range = BlazeMine._materializeView(newItemView, eachView);
+      //       eachView._domrange.addMember(range, index);
+      //       updateIndices(index);
+      //     } else {
+      //       eachView.initialSubviews.splice(index, 0, newItemView);
+      //     }
+      //   });
+      // },
+      // removedAt: function (id, item, index) {
+      //   Tracker.nonreactive(function () {
+      //     eachView.numItems--;
+      //     if (eachView.expandedValueDep) {
+      //       eachView.expandedValueDep.changed();
+      //     } else if (eachView._domrange) {
+      //       eachView._domrange.removeMember(index);
+      //       updateIndices(index);
+      //       if (eachView.elseFunc && eachView.numItems === 0) {
+      //         eachView.inElseMode = true;
+      //         eachView._domrange.addMember(
+      //           BlazeMine._materializeView(
+      //             BlazeMine.View('each_else',eachView.elseFunc),
+      //             eachView), 0);
+      //       }
+      //     } else {
+      //       eachView.initialSubviews.splice(index, 1);
+      //     }
+      //   });
+      // },
+      // changedAt: function (id, newItem, oldItem, index) {
+      //   Tracker.nonreactive(function () {
+      //     if (eachView.expandedValueDep) {
+      //       eachView.expandedValueDep.changed();
+      //     } else {
+      //       var itemView;
+      //       if (eachView._domrange) {
+      //         itemView = eachView._domrange.getMember(index).view;
+      //       } else {
+      //         itemView = eachView.initialSubviews[index];
+      //       }
+      //       if (eachView.variableName) {
+      //         itemView._scopeBindings[eachView.variableName].set(newItem);
+      //       } else {
+      //         itemView.dataVar.set(newItem);
+      //       }
+      //     }
+      //   });
+      // },
+      // movedTo: function (id, item, fromIndex, toIndex) {
+      //   Tracker.nonreactive(function () {
+      //     if (eachView.expandedValueDep) {
+      //       eachView.expandedValueDep.changed();
+      //     } else if (eachView._domrange) {
+      //       eachView._domrange.moveMember(fromIndex, toIndex);
+      //       updateIndices(
+      //         Math.min(fromIndex, toIndex), Math.max(fromIndex, toIndex));
+      //     } else {
+      //       var subviews = eachView.initialSubviews;
+      //       var itemView = subviews[fromIndex];
+      //       subviews.splice(fromIndex, 1);
+      //       subviews.splice(toIndex, 0, itemView);
+      //     }
+      //   });
+      // }
     });
 
     if (eachView.elseFunc && eachView.numItems === 0) {
       eachView.inElseMode = true;
       eachView.initialSubviews[0] =
-        Blaze.View('each_else', eachView.elseFunc);
+        BlazeMine.View('each_else', eachView.elseFunc);
     }
   });
 
@@ -912,7 +961,7 @@ BlazeMine.View.prototype.removeViewDestroyedListener = function (cb) {
 /// view._domrange), or onViewReady.
 BlazeMine.View.prototype.autorun = function (f, _inViewScope, displayName) {
   return;
-  // var self = this;
+  var self = this;
 
   // // The restrictions on when View#autorun can be called are in order
   // // to avoid bad patterns, like creating a BlazeMine.View and immediately
@@ -942,31 +991,31 @@ BlazeMine.View.prototype.autorun = function (f, _inViewScope, displayName) {
   //   throw new Error("Can't call View#autorun from inside render(); try calling it from the created or rendered callback");
   // }
 
-  // var templateInstanceFunc = BlazeMine.Template._currentTemplateInstanceFunc;
+  var templateInstanceFunc = BlazeMine.Template._currentTemplateInstanceFunc;
 
-  // var func = function viewAutorun(c) {
-  //   return BlazeMine._withCurrentView(_inViewScope || self, function () {
-  //     return BlazeMine.Template._withTemplateInstanceFunc(
-  //       templateInstanceFunc, function () {
-  //         return f.call(self, c);
-  //       });
-  //   });
-  // };
+  var func = function viewAutorun(c) {
+    return BlazeMine._withCurrentView(_inViewScope || self, function () {
+      return BlazeMine.Template._withTemplateInstanceFunc(
+        templateInstanceFunc, function () {
+          return f.call(self, c);
+        });
+    });
+  };
 
-  // // Give the autorun function a better name for debugging and profiling.
-  // // The `displayName` property is not part of the spec but browsers like Chrome
-  // // and Firefox prefer it in debuggers over the name function was declared by.
-  // func.displayName =
-  //   (self.name || 'anonymous') + ':' + (displayName || 'anonymous');
-  // var comp = Tracker.autorun(func);
+  // Give the autorun function a better name for debugging and profiling.
+  // The `displayName` property is not part of the spec but browsers like Chrome
+  // and Firefox prefer it in debuggers over the name function was declared by.
+  func.displayName =
+    (self.name || 'anonymous') + ':' + (displayName || 'anonymous');
+  var comp = Tracker.autorun(func);
 
-  // var stopComputation = function () { comp.stop(); };
-  // self.onViewDestroyed(stopComputation);
-  // comp.onStop(function () {
-  //   self.removeViewDestroyedListener(stopComputation);
-  // });
+  var stopComputation = function () { comp.stop(); };
+  self.onViewDestroyed(stopComputation);
+  comp.onStop(function () {
+    self.removeViewDestroyedListener(stopComputation);
+  });
 
-  // return comp;
+  return comp;
 };
 
 BlazeMine.View.prototype._errorIfShouldntCallSubscribe = function () {

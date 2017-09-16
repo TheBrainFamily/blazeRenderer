@@ -14,9 +14,7 @@ export default function renderBlaze(templateFile, templateName, data) {
   const include = function includeReplacement(templateName, data) {
     data = data || {};
     data = Object.assign({}, data, { includeReplacement })
-    // console.log("template", template)
-    var singleQuote = '&apos;';
-    var re = new RegExp(singleQuote, 'g');
+
     return toHTML(data, $(`template[name='${templateName}']`).html().toString().replace(/&apos;/g, "'").replace(/&quot;/g, '"'));
   }
 

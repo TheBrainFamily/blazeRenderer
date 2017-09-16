@@ -2,17 +2,25 @@
   "name": "renderBlaze",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run",
+    "test": "jest",
+    "jest-html": "jest-html"
+  },
+  "jest": {
+    "snapshotSerializers": ["/Users/lukaszgandecki/projects/renderBlazeNoMateor/node_modules/jest-html"]
   },
   "dependencies": {
+    "babel-jest": "^21.0.2",
     "babel-runtime": "^6.20.0",
     "cheerio": "^1.0.0-rc.2",
+    "jest": "^21.1.0",
     "meteor-node-stubs": "~0.2.4"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-es2015-without-strict": "0.0.4",
     "babel-preset-node7": "^1.5.0",
+    "jest-html": "^1.3.5",
     "js-beautify": "^1.6.14",
     "uglify-js": "^3.1.0",
     "underscore": "^1.8.3"
