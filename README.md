@@ -14,7 +14,7 @@ The idea of Meteor internal testing was good, but it got left behind the great t
 
 Look at this to understand what I'm talking about:
 
-http://g.recordit.co/otCOmHvHoj.gif
+![demonstration](http://g.recordit.co/otCOmHvHoj.gif)
 
 # TODO
 
