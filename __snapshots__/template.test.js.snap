@@ -1,36 +1,113 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`parse templates 1`] = `
+Array [
+  Object {
+    "cheerio": [Function],
+    "templateFile": "./main.html",
+    "templateName": "testTemplate",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "./main.html",
+    "templateName": "nestedTemplate",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "./main.html",
+    "templateName": "colorRow",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "./additionalTemplates.html",
+    "templateName": "additionalOne1",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "./additionalTemplates.html",
+    "templateName": "templateFromExternalFile",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "./additionalTemplates.html",
+    "templateName": "additionalOne3",
+  },
+]
+`;
+
+exports[`renders templates in file without data implicitly passed to it 1`] = `
+"
+    <div>
+        <div>is it me you looking for? from a function</div>
+        
+    <div>this is from nested template</div>
+
+        <ul>
+            
+            
+    <li style=\\"color:yellow\\">yellow</li>
+
+            
+            
+    <li style=\\"color:blue\\">blue</li>
+
+            
+            
+    <li style=\\"color:red\\">red</li>
+
+            
+        </ul>
+
+        
+            <p>This is true (if true)</p>
+            
+            
+            <p>Should show up - (unless false)</p>
+            
+            
+            <p>but this should show up (else)</p>
+            
+    </div>
+"
+`;
+
+exports[`renders templates included cross-files 1`] = `
+"
+    From one 2
+    
+    <div>this is from nested template</div>
+
+"
+`;
+
 exports[`template  renders properly 1`] = `
-------------HTML PREVIEW---------------
-<div>
-    <div>from a function</div>
+"<div>
+    <div>is it me you looking for? from a function</div>
 
     <div>this is from nested template</div>
 
     <ul>
 
-        is it me you looking for?
 
-        <li>yellow</li>
-
-
-        is it me you looking for?
-
-        <li>blue</li>
-
-
-        is it me you looking for?
-
-        <li>red</li>
+        <li style=\\"color:yellow\\">yellow</li>
 
 
 
+        <li style=\\"color:blue\\">blue</li>
 
-        <p>Should show up - (unless false)</p>
 
 
-        <p>but this should show up (else)</p>
+        <li style=\\"color:red\\">red</li>
+
 
     </ul>
-</div>
+
+
+
+    <p>Should show up - (unless false)</p>
+
+
+    <p>but this should show up (else)</p>
+
+</div>"
 `;

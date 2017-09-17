@@ -10,25 +10,25 @@
 
 <template name='testTemplate'>
     <div>
-        <div>{{nope}}</div>
+        <div>{{ hello}} {{nope}}</div>
         {{> nestedTemplate }}
         <ul>
             {{#each favoriteColors}}
-                {{ hello}}
-                {{> colorRow }}
+            {{> colorRow }}
             {{/each}}
-            {{#if thisIsTrue}}
-                This is true (if true)
+        </ul>
+
+        {{#if thisIsTrue}}
+            <p>This is true (if true)</p>
             {{/if}}
             {{#unless thisIsNotTrue}}
-                <p>Should show up - (unless false)</p>
+            <p>Should show up - (unless false)</p>
             {{/unless}}
             {{#if thisIsNotTrue}}
-                <p>This shouldn't show up (if false)</p>
+            <p>This shouldn't show up (if false)</p>
             {{else}}
-                <p>but this should show up (else)</p>
+            <p>but this should show up (else)</p>
             {{/if}}
-        </ul>
     </div>
 </template>
 
@@ -37,5 +37,5 @@
 </template>
 
 <template name="colorRow">
-    <li>{{ color }}</li>
+    <li style="color:{{color}}">{{ color }}</li>
 </template>

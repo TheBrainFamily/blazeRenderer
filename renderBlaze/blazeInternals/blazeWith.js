@@ -248,18 +248,12 @@ BlazeMine.View.prototype.lookup = function (name, _options) {
   }
 
   const parentData =  _.isFunction(BlazeMine._parentData(1, true /*_functionWrapped*/)) ?  BlazeMine._parentData(1, true /*_functionWrapped*/)() : {}
-  if (name === "hello") {
-      console.log("Gandecki parentData", parentData);
-  }
+
   // 5. look up in a data context
   return function () {
     var isCalledAsFunction = (arguments.length > 0);
     //
     var data = Object.assign({}, parentData, BlazeMine.getData());
-    if (name === "hello") {
-        console.log("Gandecki data", data);
-        console.log("Gandecki name", name);
-    }
     var x = data && data[name];
     if (! x) {
       if (lookupTemplate) {
