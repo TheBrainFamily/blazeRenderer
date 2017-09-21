@@ -4,6 +4,7 @@ import fs from 'fs';
 import { html as beautifyHtml } from 'js-beautify'
 import './blazeInternals/blazeWith'
 import './mockTemplates'
+import './mockReactiveVariable'
 
 var toHTML = function (data, template) {
     var compiled = compile(template, {isBody: true});

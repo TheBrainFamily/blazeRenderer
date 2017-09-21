@@ -35,3 +35,17 @@ it('renders templates in file without data implicitly passed to it', () => {
 
     expect(renderBlazeWithTemplates('testTemplate', parsedTemplates)).toMatchSnapshot()
 })
+
+it('renders template with onCreated callback and using Template.instance()', () => {
+    require('./onCreatedTemplate.js')
+    const parsedTemplates = parseTemplates(['./onCreatedTemplate.html'])
+    expect(renderBlazeWithTemplates('onCreatedTemplate', parsedTemplates)).toMatchSnapshot()
+})
+
+it('renders template with onCreated callback and using Template.instance() with two templates, one nested', () => {
+  require('./nestedWithInstance.js')
+  const parsedTemplates = parseTemplates(['./nestedWithInstance.html'])
+  expect(renderBlazeWithTemplates('parentWithInstance', parsedTemplates)).toMatchSnapshot()
+})
+
+

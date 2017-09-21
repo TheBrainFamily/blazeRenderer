@@ -35,6 +35,22 @@ Array [
 ]
 `;
 
+exports[`renders template with onCreated callback and using Template.instance() 1`] = `
+"
+    <div>value of reactive variable</div>
+"
+`;
+
+exports[`renders template with onCreated callback and using Template.instance() with two templates, one nested 1`] = `
+"
+    <div>parent - value of reactive variable
+        
+    <div>nested - value of reactive variable</div>
+
+    parent - value of reactive variable</div>
+"
+`;
+
 exports[`renders templates in file without data implicitly passed to it 1`] = `
 "
     <div>

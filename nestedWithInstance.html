@@ -1,0 +1,9 @@
+<template name="parentWithInstance">
+    <div>{{fromParentTemplateInstance}}
+        {{> nestedWithInstance }}
+    {{fromParentTemplateInstance}}</div>
+</template>
+
+<template name="nestedWithInstance">
+    <div>{{fromNestedTemplateInstance}}</div>
+</template>
