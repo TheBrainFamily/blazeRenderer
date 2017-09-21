@@ -35,6 +35,14 @@ Array [
 ]
 `;
 
+exports[`renders nested template with params 1`] = `
+"
+    <div>Parent: 
+    <div>Child: is it? not hello</div>
+</div>
+"
+`;
+
 exports[`renders template with onCreated callback and using Template.instance() 1`] = `
 "
     <div>value of reactive variable</div>

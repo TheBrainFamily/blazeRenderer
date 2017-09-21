@@ -22,7 +22,7 @@ export const renderBlazeWithData = function renderBlaze(templateFile, templateNa
 
     const template = fs.readFileSync(templateFile)
     var cheerio = require('cheerio');
-    var $ = cheerio.load(template.toString().replace(/({{> *)([^\s]*) }}/g, '{{{ includeReplacement \'$2\' }}}'));
+    var $ = cheerio.load(template.toString().replace(/({{> *)([^\s]*)(.*)}}/g, '{{{ includeReplacement \'$2\' $3 }}}'));
 
     return beautifyHtml(include(templateName, data))
 }
@@ -38,7 +38,7 @@ export const parseTemplates = function (templateFiles) {
     templateFiles.forEach((templateFile) => {
         const template = fs.readFileSync(templateFile)
         var cheerio = require('cheerio');
-        $ = cheerio.load(template.toString().replace(/({{> *)([^\s]*) }}/g, '{{{ includeReplacement \'$2\' }}}'));
+        $ = cheerio.load(template.toString().replace(/({{> *)([^\s]*)(.*)}}/g, '{{{ includeReplacement \'$2\' $3 }}}'));
         $('template').each((index, foundTemplate) => {
             templatesToFilesMap.push({templateName: $(foundTemplate).attr('name'), templateFile, cheerio: $})
         })
@@ -48,8 +48,11 @@ export const parseTemplates = function (templateFiles) {
 
 export const renderBlazeWithTemplates = function (templateName, parsedTemplates) {
     const includeReplacement = function includeReplacement(templateName) {
+      Array.from(arguments)[1]
+        // console.log("Gandecki arguments",Array.from(arguments)[1]);
         let data = Template[templateName].getHelpers() || {};
-        data = Object.assign({}, data, {includeReplacement})
+        const passedArguments = Array.from(arguments)[1] ? Array.from(arguments)[1]['hash'] : {}
+        data = Object.assign({}, data, passedArguments, {includeReplacement})
         let cheerio;
         cheerio = parsedTemplates.find(template => template.templateName === templateName).cheerio
 

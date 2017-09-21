@@ -1,0 +1,7 @@
+<template name="parentTemplate">
+    <div>Parent: {{> nestedWithParams param=hello test="not hello"}}</div>
+</template>
+
+<template name="nestedWithParams">
+    <div>Child: {{param}} {{test}}</div>
+</template>

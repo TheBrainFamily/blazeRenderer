@@ -48,4 +48,9 @@ it('renders template with onCreated callback and using Template.instance() with 
   expect(renderBlazeWithTemplates('parentWithInstance', parsedTemplates)).toMatchSnapshot()
 })
 
+it('renders nested template with params', () => {
+  require('./nestedTemplateWithParameters')
+  const parsedTemplates = parseTemplates(['./nestedTemplateWithParameters.html'])
+  expect(renderBlazeWithTemplates('parentTemplate', parsedTemplates)).toMatchSnapshot()
 
+})
