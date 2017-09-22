@@ -2925,7 +2925,7 @@ BlazeTools.EmitCode = function (value) {
   // case, since the else block is evaluated without entering
   // a new data context).
   SpacebarsMine.With = function (argFunc, contentFunc, elseFunc) {
-    var argVar = new BlazeMine.ReactiveVar;
+    var argVar = new ReactiveVar;
     var view = BlazeMine.View('Spacebars_with', function () {
       return BlazeMine.If(function () { return argVar.get(); },
                       function () { return BlazeMine.With(function () {
@@ -2933,16 +2933,16 @@ BlazeTools.EmitCode = function (value) {
                       elseFunc);
     });
     view.onViewCreated(function () {
-      this.autorun(function () {
+      // this.autorun(function () {
         argVar.set(argFunc());
 
         // This is a hack so that autoruns inside the body
         // of the #with get stopped sooner.  It reaches inside
         // our ReactiveVar to access its dep.
 
-        Tracker.onInvalidate(function () {
-          argVar.dep.changed();
-        });
+        // Tracker.onInvalidate(function () {
+        //   argVar.dep.changed();
+        // });
 
         // Take the case of `{{#with A}}{{B}}{{/with}}`.  The goal
         // is to not re-render `B` if `A` changes to become falsy
@@ -2982,7 +2982,7 @@ BlazeTools.EmitCode = function (value) {
         // case.  Anyway, doing this is always better than not doing it,
         // because it might save a bunch of DOM from being updated
         // needlessly.
-      });
+      // });
     });
 
     return view;

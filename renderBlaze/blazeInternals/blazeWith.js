@@ -329,9 +329,7 @@ export default BlazeMine.With = function (data, contentFunc) {
   view.onViewCreated(function () {
     if (typeof data === 'function') {
       // `data` is a reactive function
-      view.autorun(function () {
         view.dataVar.set(data());
-      }, view.parentView, 'setData');
     } else {
       view.dataVar.set(data);
     }
@@ -954,7 +952,7 @@ BlazeMine.View.prototype.removeViewDestroyedListener = function (cb) {
 /// from either onViewCreated (guarded against the absence of
 /// view._domrange), or onViewReady.
 BlazeMine.View.prototype.autorun = function (f, _inViewScope, displayName) {
-  return;
+  // return;
   var self = this;
 
   // // The restrictions on when View#autorun can be called are in order

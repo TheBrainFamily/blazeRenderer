@@ -13,9 +13,6 @@ describe('template', function () {
         const html = renderBlazeWithData('imports/client/lib/main.html', 'testTemplate', helpers)
         expect(html).toMatchSnapshot()
     })
-    it('renders properly meteor-style', function () {
-
-    })
 })
 
 it('parse templates', () => {
@@ -44,5 +41,13 @@ it('renders template with onCreated callback and using Template.instance() with 
 
 it('renders nested template with params', () => {
   require('./nestedTemplateWithParameters')
+
   expect(renderBlazeWithTemplates('parentTemplate')).toMatchSnapshot()
+})
+
+
+it('renders template with with', () => {
+  require('./withWith')
+
+  expect(renderBlazeWithTemplates('withWith')).toMatchSnapshot()
 })

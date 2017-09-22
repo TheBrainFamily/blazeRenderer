@@ -1,5 +1,6 @@
 {
   "name": "renderBlaze",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "meteor run",
