@@ -22,7 +22,7 @@ export const renderBlazeWithData = function renderBlaze(templateFile, templateNa
 
     const template = fs.readFileSync(templateFile)
     var cheerio = require('cheerio');
-    var $ = cheerio.load(template.toString().replace(/({{> *)([^\s]*)(.*)}}/g, '{{{ includeReplacement \'$2\' $3 }}}'));
+    var $ = cheerio.load(template.toString().replace(/{{> *([^\s}]*)([^}]*)}}/g, '{{{ includeReplacement \'$1\' $2 }}}'));
 
     return beautifyHtml(include(templateName, data))
 }
@@ -38,7 +38,9 @@ export const parseTemplates = function (templateFiles) {
     templateFiles.forEach((templateFile) => {
         const template = fs.readFileSync(templateFile)
         var cheerio = require('cheerio');
-        $ = cheerio.load(template.toString().replace(/({{> *)([^\s]*)(.*)}}/g, '{{{ includeReplacement \'$2\' $3 }}}'));
+        //TODO add test cases for multiline {{> }}
+        //TODO add test case for a case when {{> were}} <- no space
+        $ = cheerio.load(template.toString().replace(/{{> *([^\s}]*)([^}]*)}}/g, '{{{ includeReplacement \'$1\' $2 }}}'));
         $('template').each((index, foundTemplate) => {
             templatesToFilesMap.push({templateName: $(foundTemplate).attr('name'), templateFile, cheerio: $})
         })
