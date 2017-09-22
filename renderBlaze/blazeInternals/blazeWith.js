@@ -249,11 +249,27 @@ BlazeMine.View.prototype.lookup = function (name, _options) {
 
   const parentData =  _.isFunction(BlazeMine._parentData(1, true /*_functionWrapped*/)) ?  BlazeMine._parentData(1, true /*_functionWrapped*/)() : {}
 
+
+  const parentDataTwo =  _.isFunction(BlazeMine._parentData(2, true /*_functionWrapped*/)) ?  BlazeMine._parentData(2, true /*_functionWrapped*/)() : {}
+
+  const parentDataThree =  _.isFunction(BlazeMine._parentData(3, true /*_functionWrapped*/)) ?  BlazeMine._parentData(3, true /*_functionWrapped*/)() : {}
+  
+
   // 5. look up in a data context
   return function () {
     var isCalledAsFunction = (arguments.length > 0);
-    //
-    var data = Object.assign({}, parentData, BlazeMine.getData());
+
+    var data;
+    //TODO I think this is obviously wrong pattern ;-)
+    if (parentData.includeReplacement) {
+      data = Object.assign({}, parentData, BlazeMine.getData());
+    } else if (parentDataTwo.includeReplacement) {
+      data = Object.assign({}, parentData, parentDataTwo, BlazeMine.getData());
+    } else if (parentDataThree.includeReplacement) {
+      data = Object.assign({}, parentData, parentDataTwo, parentDataThree, BlazeMine.getData());
+    } else {
+      data = BlazeMine.getData()
+    }
     var x = data && data[name];
     if (! x) {
       if (lookupTemplate) {
@@ -314,7 +330,7 @@ BlazeMine._calculateCondition = function (cond) {
     return !! cond;
 };
 
-export default BlazeMine.With = function (data, contentFunc) {
+BlazeMine.With = function (data, contentFunc) {
   var view = BlazeMine.View('with', contentFunc);
 
   view.dataVar = {

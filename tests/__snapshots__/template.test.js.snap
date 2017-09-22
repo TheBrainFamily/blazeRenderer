@@ -19,6 +19,11 @@ Array [
   },
   Object {
     "cheerio": [Function],
+    "templateFile": "imports/client/lib/eachInsideEachInsideEach.html",
+    "templateName": "eachInsideEachInsideEach",
+  },
+  Object {
+    "cheerio": [Function],
     "templateFile": "imports/client/lib/main.html",
     "templateName": "testTemplate",
   },
@@ -70,6 +75,88 @@ exports[`renders nested template with params 1`] = `
     <div>Parent: 
     <div>Child: is it? not hello</div>
 </div>
+"
+`;
+
+exports[`renders properly each inside each inside each 1`] = `
+"
+    <div>
+        
+        first abc
+        
+        second ghi
+        
+        third mno
+        
+        fourth stv
+        
+        fourth xyz
+        
+        
+        third pqr
+        
+        fourth stv
+        
+        fourth xyz
+        
+        
+        
+        second jkl
+        
+        third mno
+        
+        fourth stv
+        
+        fourth xyz
+        
+        
+        third pqr
+        
+        fourth stv
+        
+        fourth xyz
+        
+        
+        
+        
+        first def
+        
+        second ghi
+        
+        third mno
+        
+        fourth stv
+        
+        fourth xyz
+        
+        
+        third pqr
+        
+        fourth stv
+        
+        fourth xyz
+        
+        
+        
+        second jkl
+        
+        third mno
+        
+        fourth stv
+        
+        fourth xyz
+        
+        
+        third pqr
+        
+        fourth stv
+        
+        fourth xyz
+        
+        
+        
+        
+    </div>
 "
 `;
 

@@ -51,3 +51,9 @@ it('renders template with with', () => {
 
   expect(renderBlazeWithTemplates('withWith')).toMatchSnapshot()
 })
+
+it('renders properly each inside each inside each', () => {
+  require('./eachInsideEachInsideEach')
+
+  expect(renderBlazeWithTemplates('eachInsideEachInsideEach')).toMatchSnapshot()
+})
