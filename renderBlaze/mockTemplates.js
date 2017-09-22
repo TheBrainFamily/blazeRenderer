@@ -7,6 +7,11 @@ var handler = {
         return target[window.CurrentTemplate]
       }
     }
+    if (name === 'subscriptionsReady') {
+      return function() {
+        return true;
+      }
+    }
       if (!name || !target || !(name in target)) {
         target[name] = {
           helpers: function (helpers) {
@@ -30,7 +35,9 @@ var handler = {
           },
           onCreated: function (callback) {
             callback.apply(this)
-          }
+          },
+          onRendered() {},
+          events() {},
         }
       }
       return target[name]
