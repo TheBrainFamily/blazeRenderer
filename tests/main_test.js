@@ -1,4 +1,4 @@
-import {renderBlazeWithData, parseTemplates} from './renderblaze/renderBlaze';
+import {renderBlazeWithData, parseTemplates} from '../renderblaze/renderBlaze';
 
 // Things left so far:
 // a) included templates should have the parent data shifted by one (../color should work as color)

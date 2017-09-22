@@ -4,33 +4,73 @@ exports[`parse templates 1`] = `
 Array [
   Object {
     "cheerio": [Function],
-    "templateFile": "./main.html",
-    "templateName": "testTemplate",
-  },
-  Object {
-    "cheerio": [Function],
-    "templateFile": "./main.html",
-    "templateName": "nestedTemplate",
-  },
-  Object {
-    "cheerio": [Function],
-    "templateFile": "./main.html",
-    "templateName": "colorRow",
-  },
-  Object {
-    "cheerio": [Function],
-    "templateFile": "./additionalTemplates.html",
+    "templateFile": "imports/client/lib/additionalTemplates.html",
     "templateName": "additionalOne1",
   },
   Object {
     "cheerio": [Function],
-    "templateFile": "./additionalTemplates.html",
+    "templateFile": "imports/client/lib/additionalTemplates.html",
     "templateName": "templateFromExternalFile",
   },
   Object {
     "cheerio": [Function],
-    "templateFile": "./additionalTemplates.html",
+    "templateFile": "imports/client/lib/additionalTemplates.html",
     "templateName": "additionalOne3",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "imports/client/lib/main.html",
+    "templateName": "testTemplate",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "imports/client/lib/main.html",
+    "templateName": "nestedTemplate",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "imports/client/lib/main.html",
+    "templateName": "colorRow",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "imports/client/lib/nestedTemplateWithParameters.html",
+    "templateName": "parentTemplate",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "imports/client/lib/nestedTemplateWithParameters.html",
+    "templateName": "nestedWithParams",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "imports/client/lib/nestedWithInstance.html",
+    "templateName": "parentWithInstance",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "imports/client/lib/nestedWithInstance.html",
+    "templateName": "nestedWithInstance",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "imports/client/lib/onCreatedTemplate.html",
+    "templateName": "onCreatedTemplate",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "imports/client/lib/test.html",
+    "templateName": "testTemplate",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "imports/client/lib/test.html",
+    "templateName": "nestedTemplate",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "imports/client/lib/test.html",
+    "templateName": "colorRow",
   },
 ]
 `;

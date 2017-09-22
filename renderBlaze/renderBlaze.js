@@ -5,6 +5,7 @@ import { html as beautifyHtml } from 'js-beautify'
 import './blazeInternals/blazeWith'
 import './mockTemplates'
 import './mockReactiveVariable'
+import returnAllTemplates from './returnAllTemplates'
 
 var toHTML = function (data, template) {
     var compiled = compile(template, {isBody: true});
@@ -49,9 +50,13 @@ export const parseTemplates = function (templateFiles) {
 }
 
 export const renderBlazeWithTemplates = function (templateName, parsedTemplates) {
+  if (parsedTemplates && parsedTemplates.length > 0) {
+
+  } else {
+    parsedTemplates = parseTemplates(returnAllTemplates('imports/').concat(returnAllTemplates('client/')))
+  }
     const includeReplacement = function includeReplacement(templateName) {
       Array.from(arguments)[1]
-        // console.log("Gandecki arguments",Array.from(arguments)[1]);
         let data = Template[templateName].getHelpers() || {};
         const passedArguments = Array.from(arguments)[1] ? Array.from(arguments)[1]['hash'] : {}
         data = Object.assign({}, data, passedArguments, {includeReplacement})

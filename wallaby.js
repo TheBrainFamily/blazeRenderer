@@ -3,14 +3,17 @@ module.exports = function (wallaby) {
         files: [
             'renderBlaze/**/*.js',
             '*.js',
+            'tests/**/*.js',
 
             '*.json',
             '*.html',
-            { pattern: '*.test.js', ignore: true }
+            'tests/**/*.html',
+            'imports/**/*.html',
+            { pattern: 'tests/**/*.test.js', ignore: true }
         ],
 
         tests: [
-            '*.test.js',
+            'tests/**/*.test.js',
         ],
 
         compilers: {
