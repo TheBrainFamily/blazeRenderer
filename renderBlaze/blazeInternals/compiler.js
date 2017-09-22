@@ -2186,7 +2186,7 @@ var builtInTemplateMacros = {
   // implements the dynamic template feature.
   'dynamic': 'Template.__dynamic',
 
-  'subscriptionsReady': 'view.templateInstance().subscriptionsReady()'
+  'subscriptionsReady': 'true'
 };
 
 var additionalReservedNames = ["body", "toString", "instance",  "constructor",

@@ -38,6 +38,8 @@ var handler = {
           },
           onRendered() {},
           events() {},
+          //TODO this most probably shouldn't be here but attached to the callbacks like onCreated
+          subscribe() {},
         }
       }
       return target[name]

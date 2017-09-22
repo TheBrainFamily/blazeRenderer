@@ -57,21 +57,6 @@ Array [
     "templateFile": "imports/client/lib/onCreatedTemplate.html",
     "templateName": "onCreatedTemplate",
   },
-  Object {
-    "cheerio": [Function],
-    "templateFile": "imports/client/lib/test.html",
-    "templateName": "testTemplate",
-  },
-  Object {
-    "cheerio": [Function],
-    "templateFile": "imports/client/lib/test.html",
-    "templateName": "nestedTemplate",
-  },
-  Object {
-    "cheerio": [Function],
-    "templateFile": "imports/client/lib/test.html",
-    "templateName": "colorRow",
-  },
 ]
 `;
 

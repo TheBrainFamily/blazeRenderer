@@ -56,10 +56,11 @@ export const renderBlazeWithTemplates = function (templateName, parsedTemplates)
     parsedTemplates = parseTemplates(returnAllTemplates('imports/').concat(returnAllTemplates('client/')))
   }
     const includeReplacement = function includeReplacement(templateName) {
-      Array.from(arguments)[1]
         let data = Template[templateName].getHelpers() || {};
         const passedArguments = Array.from(arguments)[1] ? Array.from(arguments)[1]['hash'] : {}
-        data = Object.assign({}, data, passedArguments, {includeReplacement})
+        //TODO add test for isInRole, and most probably make this configurable instead of hardcoded.
+        // Used in https://github.com/alanning/meteor-roles
+        data = Object.assign({}, data, passedArguments, {includeReplacement}, {isInRole: function() { return true }})
         let cheerio;
         cheerio = parsedTemplates.find(template => template.templateName === templateName).cheerio
 
