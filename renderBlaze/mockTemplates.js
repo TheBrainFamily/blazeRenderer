@@ -21,20 +21,28 @@ var handler = {
             const wrappedHelpers = {}
             const helpers = this.helpers
             Object.keys(helpers).forEach((key) => {
-              wrappedHelpers[key] = function() {
-                if (!window.PreviousTemplate || window.PreviousTemplate !== name) {
-                  window.PreviousTemplate = window.CurrentTemplate
-                  window.CurrentTemplate = name
+              if (!_.isFunction(helpers[key])) {
+                wrappedHelpers[key] = helpers[key];
+              }
+              else {
+                wrappedHelpers[key] = function () {
+                  if (!window.PreviousTemplate || window.PreviousTemplate !== name) {
+                    window.PreviousTemplate = window.CurrentTemplate
+                    window.CurrentTemplate = name
+                  }
+                  const value = _.isFunction(helpers[key]) ? helpers[key]() : helpers[key]
+                  window.CurrentTemplate = window.PreviousTemplate
+                  return value;
                 }
-                const value = _.isFunction(helpers[key]) ? helpers[key]() : helpers[key]
-                window.CurrentTemplate = window.PreviousTemplate
-                return value;
               }
             })
             return wrappedHelpers
           },
           onCreated: function (callback) {
-            callback.apply(this)
+            this._onCreatedCallback = callback
+          },
+          _runOnCreatedCallback() {
+            this._onCreatedCallback && this._onCreatedCallback.apply(this)
           },
           onRendered() {},
           events() {},

@@ -70,10 +70,10 @@ Array [
 ]
 `;
 
-exports[`renders nested template with params 1`] = `
+exports[`renders nested template with params and this.data in onCreated 1`] = `
 "
     <div>Parent: 
-    <div>Child: is it? not hello</div>
+    <div>Child: is it? not hello Param Again - is it?</div>
 </div>
 "
 `;

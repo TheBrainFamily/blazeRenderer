@@ -330,7 +330,7 @@ BlazeMine._calculateCondition = function (cond) {
     return !! cond;
 };
 
-BlazeMine.With = function (data, contentFunc) {
+BlazeMine.With = function (data, contentFunc, templateName) {
   var view = BlazeMine.View('with', contentFunc);
 
   view.dataVar = {
@@ -343,6 +343,8 @@ BlazeMine.With = function (data, contentFunc) {
   };
 
   view.onViewCreated(function () {
+    Template[templateName].data = Template[templateName].getHelpers()
+    Template[templateName]._runOnCreatedCallback()
     if (typeof data === 'function') {
       // `data` is a reactive function
         view.dataVar.set(data());

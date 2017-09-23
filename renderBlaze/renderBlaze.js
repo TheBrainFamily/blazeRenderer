@@ -7,10 +7,11 @@ import './mockTemplates'
 import './mockReactiveVariable'
 import returnAllTemplates from './returnAllTemplates'
 
-var toHTML = function (data, template) {
+var toHTML = function (data, template, templateName) {
     var compiled = compile(template, {isBody: true});
+
     var fn = eval(compiled);
-    return BlazeMine.toHTML(BlazeMine.With(data, fn));
+    return BlazeMine.toHTML(BlazeMine.With(data, fn, templateName));
 };
 
 export const renderBlazeWithData = function renderBlaze(templateFile, templateName, data) {
@@ -56,16 +57,18 @@ export const renderBlazeWithTemplates = function (templateName, parsedTemplates)
     parsedTemplates = parseTemplates(returnAllTemplates('imports/').concat(returnAllTemplates('client/')))
   }
     const includeReplacement = function includeReplacement(templateName) {
-        let data = Template[templateName].getHelpers() || {};
         const passedArguments = Array.from(arguments)[1] ? Array.from(arguments)[1]['hash'] : {}
+        Template[templateName].helpers = Object.assign({}, Template[templateName].getHelpers(), passedArguments, {isInRole: function() { return true }}, {$or: function(arg1, arg2) { return arg1 || arg2}})
+
         //TODO add test for isInRole, and most probably make this configurable instead of hardcoded.
         // Used in https://github.com/alanning/meteor-roles
-        data = Object.assign({}, data, passedArguments, {includeReplacement}, {isInRole: function() { return true }}, {$or: function(arg1, arg2) { return arg1 || arg2}})
+        data = Object.assign({}, Template[templateName].getHelpers(), {includeReplacement})
+
         let cheerio;
         cheerio = parsedTemplates.find(template => template.templateName === templateName).cheerio
 
         let template = cheerio(`template[name='${templateName}']`).html().toString().replace(/&gt;/g, ">").replace(/&apos;/g, "'").replace(/&quot;/g, '"');
-        return toHTML(data, template);
+        return toHTML(data, template, templateName);
     }
     return includeReplacement(templateName)
 }
