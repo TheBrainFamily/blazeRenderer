@@ -2,6 +2,18 @@ import _ from 'underscore'
 
 var handler = {
   get: function (target, name) {
+    if (name === 'registerHelper') {
+      return function(functionName, functionPassed) {
+        if(!target.globalHelpers) {
+          target.globalHelpers = {};
+        }
+        if(_.isFunction(functionPassed)) {
+          target.globalHelpers[functionName] = function () {
+            return functionPassed;
+          }
+        }
+      }
+    }
     if (name === 'instance') {
       return function () {
         return target[window.CurrentTemplate]
@@ -18,11 +30,10 @@ var handler = {
             this.helpers = helpers
           },
           getHelpers: function () {
-            const wrappedHelpers = {}
-            const helpers = this.helpers
-            Object.keys(helpers).forEach((key) => {
-              if (!_.isFunction(helpers[key])) {
-                wrappedHelpers[key] = helpers[key];
+            function wrapperFunction(key) {
+              const targetObject = helpers[key] ? helpers : target.globalHelpers;
+              if (!_.isFunction(targetObject[key])) {
+                wrappedHelpers[key] = targetObject[key];
               }
               else {
                 wrappedHelpers[key] = function () {
@@ -30,12 +41,19 @@ var handler = {
                     window.PreviousTemplate = window.CurrentTemplate
                     window.CurrentTemplate = name
                   }
-                  const value = _.isFunction(helpers[key]) ? helpers[key]() : helpers[key]
+                  const value = _.isFunction(targetObject[key]) ? targetObject[key]() : targetObject[key]
                   window.CurrentTemplate = window.PreviousTemplate
                   return value;
                 }
               }
-            })
+            }
+            const wrappedHelpers = {}
+            const helpers = this.helpers
+            if(target.globalHelpers) {
+              Object.keys(target.globalHelpers).forEach(wrapperFunction);
+            }
+            Object.keys(helpers).forEach(wrapperFunction);
+
             return wrappedHelpers
           },
           onCreated: function (callback) {

@@ -57,3 +57,8 @@ it('renders properly each inside each inside each', () => {
 
   expect(renderBlazeWithTemplates('eachInsideEachInsideEach')).toMatchSnapshot()
 })
+it('should have access to functions added by registerHelper', () => {
+  require('./registeredHelper')
+
+  expect(renderBlazeWithTemplates('forRegisteredHelper')).toMatchSnapshot()
+})
