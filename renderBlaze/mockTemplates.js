@@ -2,6 +2,16 @@ import _ from 'underscore'
 
 var handler = {
   get: function (target, name) {
+    if (name === 'registerHelper') {
+      return function(functionName, functionPassed) {
+        if(!target.globalHelpers) {
+          target.globalHelpers = {};
+        }
+        if(_.isFunction(functionPassed)) {
+          target.globalHelpers[functionName] = functionPassed;
+        }
+      }
+    }
     if (name === 'instance') {
       return function () {
         return target[window.CurrentTemplate]
@@ -36,6 +46,11 @@ var handler = {
                 }
               }
             })
+            if(target.globalHelpers) {
+              Object.keys(target.globalHelpers).forEach((key) => {
+                  wrappedHelpers[key] = target.globalHelpers[key];
+              })
+            }
             return wrappedHelpers
           },
           onCreated: function (callback) {
