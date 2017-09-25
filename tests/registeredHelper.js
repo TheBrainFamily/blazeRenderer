@@ -1,3 +1,3 @@
-Template.registerHelper('checkIfTest', (test) => {
-  return test === 'test'
+Template.registerHelper('areEqual', (a, b) => {
+  return a === b
 })

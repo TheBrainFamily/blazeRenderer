@@ -8,7 +8,9 @@ var handler = {
           target.globalHelpers = {};
         }
         if(_.isFunction(functionPassed)) {
-          target.globalHelpers[functionName] = functionPassed;
+          target.globalHelpers[functionName] = function () {
+            return functionPassed;
+          }
         }
       }
     }
@@ -28,11 +30,10 @@ var handler = {
             this.helpers = helpers
           },
           getHelpers: function () {
-            const wrappedHelpers = {}
-            const helpers = this.helpers
-            Object.keys(helpers).forEach((key) => {
-              if (!_.isFunction(helpers[key])) {
-                wrappedHelpers[key] = helpers[key];
+            function wrapperFunction(key) {
+              const targetObject = helpers[key] ? helpers : target.globalHelpers;
+              if (!_.isFunction(targetObject[key])) {
+                wrappedHelpers[key] = targetObject[key];
               }
               else {
                 wrappedHelpers[key] = function () {
@@ -40,17 +41,19 @@ var handler = {
                     window.PreviousTemplate = window.CurrentTemplate
                     window.CurrentTemplate = name
                   }
-                  const value = _.isFunction(helpers[key]) ? helpers[key]() : helpers[key]
+                  const value = _.isFunction(targetObject[key]) ? targetObject[key]() : targetObject[key]
                   window.CurrentTemplate = window.PreviousTemplate
                   return value;
                 }
               }
-            })
-            if(target.globalHelpers) {
-              Object.keys(target.globalHelpers).forEach((key) => {
-                  wrappedHelpers[key] = target.globalHelpers[key];
-              })
             }
+            const wrappedHelpers = {}
+            const helpers = this.helpers
+            if(target.globalHelpers) {
+              Object.keys(target.globalHelpers).forEach(wrapperFunction);
+            }
+            Object.keys(helpers).forEach(wrapperFunction);
+
             return wrappedHelpers
           },
           onCreated: function (callback) {
