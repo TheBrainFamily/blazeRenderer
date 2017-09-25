@@ -57,8 +57,15 @@ it('renders properly each inside each inside each', () => {
 
   expect(renderBlazeWithTemplates('eachInsideEachInsideEach')).toMatchSnapshot()
 })
+
 it('should have access to functions added by registerHelper', () => {
   require('./registeredHelper')
 
   expect(renderBlazeWithTemplates('forRegisteredHelper')).toMatchSnapshot()
 })
+
+it('renders templateWithContentBlock', () => {
+  expect(renderBlazeWithTemplates('templateWithContentBlockOut')).toMatchSnapshot()
+})
+
+//TODO need a test for skipping the each on undefined.

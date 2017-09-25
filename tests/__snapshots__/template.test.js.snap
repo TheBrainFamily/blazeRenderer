@@ -69,6 +69,16 @@ Array [
   },
   Object {
     "cheerio": [Function],
+    "templateFile": "imports/client/lib/templateWithContentBlock.html",
+    "templateName": "templateWithContentBlockOut",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "imports/client/lib/templateWithContentBlock.html",
+    "templateName": "templateWithContentBlockInside",
+  },
+  Object {
+    "cheerio": [Function],
     "templateFile": "imports/client/lib/withWith.html",
     "templateName": "withWith",
   },
@@ -189,6 +199,20 @@ exports[`renders template with with 1`] = `
             really beautiful
         
         outside again
+    </div>
+"
+`;
+
+exports[`renders templateWithContentBlock 1`] = `
+"
+    <div>External
+    
+    <div>div from nested template
+    
+        <div>div from the parent template inside the nested abc</div>
+    
+    abc</div>
+
     </div>
 "
 `;

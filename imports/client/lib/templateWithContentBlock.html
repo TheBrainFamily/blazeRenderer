@@ -1,0 +1,13 @@
+<template name="templateWithContentBlockOut">
+    <div>External
+    {{#templateWithContentBlockInside test="abc"}}
+        <div>div from the parent template inside the nested {{test}}</div>
+    {{/templateWithContentBlockInside}}
+    </div>
+</template>
+
+<template name="templateWithContentBlockInside">
+    <div>div from nested template
+    {{Template.contentBlock}}
+    abc</div>
+</template>

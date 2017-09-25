@@ -1480,8 +1480,8 @@ var skipSpaces = function (scanner) {
 };
 
 var requireSpaces = function (scanner) {
-  if (! HTML_SPACE.test(scanner.peek()))
-    scanner.fatal("Expected space");
+  // if (! HTML_SPACE.test(scanner.peek()))
+  //   scanner.fatal("Expected space");
   skipSpaces(scanner);
 };
 
@@ -2716,29 +2716,32 @@ BlazeTools.EmitCode = function (value) {
 
     if (typeof templateOrFunction !== 'function') {
       var template = templateOrFunction;
-      if (! BlazeMine.isTemplate(template))
+      if (! template)
         throw new Error("Expected template or null, found: " + template);
+      // console.log("Gandecki contentFunc", contentFunc);
+      // console.log("Gandecki elseFunc", elseFunc);
+      console.log("Gandecki templateOrFunction", templateOrFunction);
       var view = templateOrFunction.constructView(contentFunc, elseFunc);
       view.__startsNewLexicalScope = true;
       return view;
     }
 
-    var templateVar = BlazeMine.ReactiveVar(null, tripleEquals);
+    var templateVar = new ReactiveVar(null, tripleEquals);
     var view = BlazeMine.View('SpacebarsMine.include', function () {
       var template = templateVar.get();
       if (template === null)
         return null;
 
-      if (! BlazeMine.isTemplate(template))
+      if (! template)
         throw new Error("Expected template or null, found: " + template);
-
+      return template
+      console.log("Gandecki template", template);
       return template.constructView(contentFunc, elseFunc);
     });
     view.__templateVar = templateVar;
     view.onViewCreated(function () {
-      this.autorun(function () {
+      console.log("Gandecki templateOrFunction()", templateOrFunction());
         templateVar.set(templateOrFunction());
-      });
     });
     view.__startsNewLexicalScope = true;
 

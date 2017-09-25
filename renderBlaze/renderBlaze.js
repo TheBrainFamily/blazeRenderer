@@ -3,14 +3,24 @@ import compile from './blazeInternals/compiler'
 import fs from 'fs';
 import { html as beautifyHtml } from 'js-beautify'
 import './blazeInternals/blazeWith'
+import './blazeInternals/template'
 import './mockTemplates'
 import './mockReactiveVariable'
 import returnAllTemplates from './returnAllTemplates'
 
-var toHTML = function (data, template, templateName) {
-    var compiled = compile(template, {isBody: true});
+var toHTML = function (data, template, templateName, matchedInsideTemplates) {
 
-    var fn = eval(compiled);
+    if (matchedInsideTemplates) {
+      matchedInsideTemplates.forEach(insideTemplate => {
+        var compiledInside = compile(insideTemplate.templateInside ,{isBody: true})
+        var fnInside = eval(compiledInside)
+        window.hackedInTemplates = {}
+        window.hackedInTemplates[insideTemplate.name] = fnInside
+      })
+    }
+
+    var compiled = compile(template, {isBody: true});
+    var fn = eval(compiled)
     return BlazeMine.toHTML(BlazeMine.With(data, fn, templateName));
 };
 
@@ -58,17 +68,39 @@ export const renderBlazeWithTemplates = function (templateName, parsedTemplates)
   }
     const includeReplacement = function includeReplacement(templateName) {
         const passedArguments = Array.from(arguments)[1] ? Array.from(arguments)[1]['hash'] : {}
-        Template[templateName].helpers = Object.assign({}, Template[templateName].getHelpers(), passedArguments, {isInRole: function() { return true }}, {$or: function(arg1, arg2) { return arg1 || arg2}})
+        Template[templateName].helpers = Object.assign({}, Template[templateName].getHelpers(), passedArguments, {isInRole: function() { return true }}, {$or: function(arg1, arg2) { return arg1 || arg2}}, {$gt: function(arg1, arg2) { return arg1 > arg2}})
 
-        //TODO add test for isInRole, and most probably make this configurable instead of hardcoded.
-        // Used in https://github.com/alanning/meteor-roles
-        data = Object.assign({}, Template[templateName].getHelpers(), {includeReplacement})
+      //TODO add test for isInRole, and most probably make this configurable instead of hardcoded.
+      // Used in https://github.com/alanning/meteor-roles
+      data = Object.assign({}, Template[templateName].getHelpers(), {includeReplacement})
 
-        let cheerio;
-        cheerio = parsedTemplates.find(template => template.templateName === templateName).cheerio
+      let cheerio = parsedTemplates.find(template => template.templateName === templateName).cheerio
 
-        let template = cheerio(`template[name='${templateName}']`).html().toString().replace(/&gt;/g, ">").replace(/&apos;/g, "'").replace(/&quot;/g, '"');
-        return toHTML(data, template, templateName);
+      let template = cheerio(`template[name='${templateName}']`).html().toString().replace(/&gt;/g, ">").replace(/&apos;/g, "'").replace(/&quot;/g, '"');
+
+      let myRegexp = /{{ ?#(?!.*if|.*unless|.*each)([^ ]*).*}}/g;
+
+      let match = myRegexp.exec(template);
+
+      let matchedInsideTemplateNames = ['templateWithContentBlockInside']
+
+      while (match !== null) {
+        // matched text: match[0]
+        // match start: match.index
+        // capturing group n: match[n]
+        matchedInsideTemplateNames.push(match[1])
+        match = myRegexp.exec(template);
+      }
+
+
+      let matchedInsideTemplates = matchedInsideTemplateNames.map(name => {
+        let cheerioInside = parsedTemplates.find(template => template.templateName === name).cheerio
+        let templateInside = cheerioInside(`template[name='${name}']`).html().toString().replace(/&gt;/g, '>').replace(/&apos;/g, '\'').replace(/&quot;/g, '"')
+        return {templateInside, name}
+      })
+
+
+        return toHTML(data, template, templateName, matchedInsideTemplates);
     }
     return includeReplacement(templateName)
 }

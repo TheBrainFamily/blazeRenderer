@@ -1,6 +1,8 @@
 import _ from 'underscore'
 BlazeMine = {}
 
+BlazeMine._bind = _.bind;
+
 class ReactiveVar {
   set(value) {
     this.value = value;
@@ -121,11 +123,29 @@ BlazeMine._lexicalBindingLookup = function (view, name) {
 // templateInstance argument is provided to be available for possible
 // alternative implementations of this function by 3rd party packages.
 BlazeMine._getTemplate = function (name, templateInstance) {
+  // console.log('Gandecki templateInstance', templateInstance)
+  return new BlazeMine.Template(name,
+
+    function() {
+      var view = this;
+      console.log("Gandecki window.returnInternals()", name);
+      // console.log("Gandecki this", this);
+      return [
+        SpacebarsMine.include(
+          window.hackedInTemplates[name]
+        )
+      ];
+    }
+
+
+  )
+  console.log("Gandecki name", name);
   if ((name in BlazeMine.Template) && (BlazeMine.Template[name] instanceof BlazeMine.Template)) {
     return BlazeMine.Template[name];
   }
   return null;
 };
+
 
 BlazeMine._getGlobalHelper = function (name, templateInstance) {
   if (BlazeMine._globalHelpers[name] != null) {
@@ -134,6 +154,32 @@ BlazeMine._getGlobalHelper = function (name, templateInstance) {
   return null;
 };
 
+function test() {
+  var view = this;
+  return ["\n    ", HTMLMine.DIV("External\n    ", BlazeMine._TemplateWith(function() {
+    return {
+      test: SpacebarsMine.call("abc")
+    };
+  }, function() {
+    return SpacebarsMine.include(
+      (function () {
+          return [
+            '\n        ',
+            HTMLMine.DIV('inside div', BlazeMine.View('lookup:test',
+              function () {
+                return SpacebarsMine.mustache(view.lookup('test'))
+              }
+            )),
+            '\n    ']
+        }
+
+    ), (function() {
+      return ["\n        ", HTMLMine.DIV("inside div", BlazeMine.View("lookup:test", function() {
+        return SpacebarsMine.mustache(view.lookup("test"));
+      })), "\n    "];
+    }));
+  }), "\n    "), "\n"];
+}
 
 
 /**
@@ -144,10 +190,14 @@ BlazeMine._getGlobalHelper = function (name, templateInstance) {
  * @param {Function} renderFunction A function that returns [*renderable content*](#Renderable-Content).  In this function, `this` is bound to the View.
  */
 BlazeMine.View = function (name, render) {
-  if (! (this instanceof BlazeMine.View))
+  if (! (this instanceof BlazeMine.View)) {
     // called without `new`
+    if (name === 'lookup:Template.contentBlock') {
+      return window.returnInternals()
+      // return returnInternals(view)
+    }
     return new BlazeMine.View(name, render);
-
+  }
   if (typeof name === 'function') {
     // omitted "name" argument
     render = name;
@@ -236,9 +286,10 @@ BlazeMine.View.prototype.lookup = function (name, _options) {
   if (template && (binding = BlazeMine._lexicalBindingLookup(BlazeMine.currentView, name)) != null) {
     return binding;
   }
-
   // 3. look up a template by name
   if (lookupTemplate && ((foundTemplate = BlazeMine._getTemplate(name, boundTmplInstance)) != null)) {
+    console.log("here again", name)
+    // return null
     return foundTemplate;
   }
 
@@ -253,7 +304,7 @@ BlazeMine.View.prototype.lookup = function (name, _options) {
   const parentDataTwo =  _.isFunction(BlazeMine._parentData(2, true /*_functionWrapped*/)) ?  BlazeMine._parentData(2, true /*_functionWrapped*/)() : {}
 
   const parentDataThree =  _.isFunction(BlazeMine._parentData(3, true /*_functionWrapped*/)) ?  BlazeMine._parentData(3, true /*_functionWrapped*/)() : {}
-  
+
 
   // 5. look up in a data context
   return function () {
@@ -400,7 +451,7 @@ BlazeMine.Let = function (bindings, contentFunc) {
  */
 BlazeMine.If = function (conditionFunc, contentFunc, elseFunc, _not) {
   var conditionVar = new ReactiveVar;
-
+  // console.log("Gandecki contentFunc()", contentFunc());
   var view = BlazeMine.View(_not ? 'unless' : 'if', function () {
     return conditionVar.get() ? contentFunc() :
       (elseFunc ? elseFunc() : null);
@@ -716,8 +767,9 @@ BlazeMine.Each = function (argFunc, contentFunc, elseFunc) {
       eachView.argVar.set(arg);
     // }, eachView.parentView, 'collection');
 
-
-      eachView.argVar.get().forEach(function(item, index) {
+    //it's ok to skip undefined in blaze.
+    let values = eachView.argVar.get() || []
+    values.forEach(function(item, index) {
           var newItemView;
           if (eachView.variableName) {
               // new-style #each (as in {{#each item in items}})
@@ -1699,3 +1751,61 @@ BlazeMine._addEventMap = function (view, eventMap, thisInHandler) {
     handles.length = 0;
   });
 };
+
+
+
+BlazeMine._TemplateWith = function (arg, contentFunc) {
+  var w;
+
+  var argFunc = arg;
+  if (typeof arg !== 'function') {
+    argFunc = function () {
+      return arg;
+    };
+  }
+
+  // This is a little messy.  When we compile `{{> Template.contentBlock}}`, we
+  // wrap it in BlazeMine._InOuterTemplateScope in order to skip the intermediate
+  // parent Views in the current template.  However, when there's an argument
+  // (`{{> Template.contentBlock arg}}`), the argument needs to be evaluated
+  // in the original scope.  There's no good order to nest
+  // BlazeMine._InOuterTemplateScope and Spacebars.TemplateWith to achieve this,
+  // so we wrap argFunc to run it in the "original parentView" of the
+  // BlazeMine._InOuterTemplateScope.
+  //
+  // To make this better, reconsider _InOuterTemplateScope as a primitive.
+  // Longer term, evaluate expressions in the proper lexical scope.
+  var wrappedArgFunc = function () {
+    var viewToEvaluateArg = null;
+    if (w.parentView && w.parentView.name === 'InOuterTemplateScope') {
+      viewToEvaluateArg = w.parentView.originalParentView;
+    }
+    if (viewToEvaluateArg) {
+      return BlazeMine._withCurrentView(viewToEvaluateArg, argFunc);
+    } else {
+      return argFunc();
+    }
+  };
+
+  var wrappedContentFunc = function () {
+    // console.log("Gandecki contentFunc", contentFunc);
+    var content = contentFunc.call(this);
+
+    // Since we are generating the BlazeMine._TemplateWith view for the
+    // user, set the flag on the child view.  If `content` is a template,
+    // construct the View so that we can set the flag.
+    // if (content instanceof BlazeMine.Template) {
+    //   content = content.constructView();
+    // }
+    if (content instanceof BlazeMine.View) {
+      content._hasGeneratedParent = true;
+    }
+
+    return content;
+  };
+
+  w = BlazeMine.With(wrappedArgFunc, wrappedContentFunc);
+  w.__isTemplateWith = true;
+  return w;
+};
+

@@ -63,9 +63,14 @@ var handler = {
             this._onCreatedCallback && this._onCreatedCallback.apply(this)
           },
           onRendered() {},
+          onDestroyed() {},
           events() {},
           //TODO this most probably shouldn't be here but attached to the callbacks like onCreated
           subscribe() {},
+          autorun: function(callback) {
+            //TODO not sure if we should bind this...
+            callback.apply(this)
+          },
         }
       }
       return target[name]
