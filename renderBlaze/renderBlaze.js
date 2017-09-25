@@ -82,7 +82,7 @@ export const renderBlazeWithTemplates = function (templateName, parsedTemplates)
 
       let match = myRegexp.exec(template);
 
-      let matchedInsideTemplateNames = ['templateWithContentBlockInside']
+      let matchedInsideTemplateNames = []
 
       while (match !== null) {
         // matched text: match[0]

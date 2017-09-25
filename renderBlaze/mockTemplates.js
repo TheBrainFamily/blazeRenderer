@@ -9,7 +9,7 @@ var handler = {
         }
         if(_.isFunction(functionPassed)) {
           target.globalHelpers[functionName] = function () {
-            return functionPassed;
+            return functionPassed.apply(this, arguments);
           }
         }
       }
@@ -41,7 +41,7 @@ var handler = {
                     window.PreviousTemplate = window.CurrentTemplate
                     window.CurrentTemplate = name
                   }
-                  const value = _.isFunction(targetObject[key]) ? targetObject[key]() : targetObject[key]
+                  const value = _.isFunction(targetObject[key]) ? targetObject[key].apply(this, arguments) : targetObject[key]
                   window.CurrentTemplate = window.PreviousTemplate
                   return value;
                 }

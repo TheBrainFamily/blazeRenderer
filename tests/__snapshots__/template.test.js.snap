@@ -1,5 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`helpers take arguments properly 1`] = `
+"
+    inside hello outside
+"
+`;
+
 exports[`parse templates 1`] = `
 Array [
   Object {
@@ -21,6 +27,11 @@ Array [
     "cheerio": [Function],
     "templateFile": "imports/client/lib/eachInsideEachInsideEach.html",
     "templateName": "eachInsideEachInsideEach",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "imports/client/lib/helpersWithArguments.html",
+    "templateName": "helpersWithArguments",
   },
   Object {
     "cheerio": [Function],

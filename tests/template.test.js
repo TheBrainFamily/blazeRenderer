@@ -68,4 +68,8 @@ it('renders templateWithContentBlock', () => {
   expect(renderBlazeWithTemplates('templateWithContentBlockOut')).toMatchSnapshot()
 })
 
+it('helpers take arguments properly', () => {
+  require('./helpersWithArguments')
+  expect(renderBlazeWithTemplates('helpersWithArguments')).toMatchSnapshot()
+})
 //TODO need a test for skipping the each on undefined.
