@@ -65,6 +65,7 @@ it('should have access to functions added by registerHelper', () => {
 })
 
 it('renders templateWithContentBlock', () => {
+  require('./templateWithContentBlock')
   expect(renderBlazeWithTemplates('templateWithContentBlockOut')).toMatchSnapshot()
 })
 

@@ -8,6 +8,7 @@
 
 <template name="templateWithContentBlockInside">
     <div>div from nested template
+        {{myOwnHelper 'sdf'}}
     {{> Template.contentBlock }}
     abc</div>
 </template>

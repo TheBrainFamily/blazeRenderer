@@ -369,7 +369,7 @@ BlazeMine.With = function (data, contentFunc, templateName) {
     Template[templateName]._runOnCreatedCallback()
     if (typeof data === 'function') {
       // `data` is a reactive function
-        view.dataVar.set(data());
+        view.dataVar.set(Object.assign(data(), Template[templateName].data));
     } else {
       view.dataVar.set(data);
     }
@@ -1725,7 +1725,7 @@ BlazeMine._addEventMap = function (view, eventMap, thisInHandler) {
 
 
 
-BlazeMine._TemplateWith = function (arg, contentFunc) {
+BlazeMine._TemplateWith = function (arg, contentFunc, path) {
   var w;
 
   var argFunc = arg;
@@ -1775,7 +1775,7 @@ BlazeMine._TemplateWith = function (arg, contentFunc) {
     return content;
   };
 
-  w = BlazeMine.With(wrappedArgFunc, wrappedContentFunc);
+  w = BlazeMine.With(wrappedArgFunc, wrappedContentFunc, path);
   w.__isTemplateWith = true;
   return w;
 };

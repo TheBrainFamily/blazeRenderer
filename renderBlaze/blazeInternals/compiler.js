@@ -2350,7 +2350,7 @@ _.extend(CodeGen.prototype, {
           if (dataCode) {
             includeCode =
               'BlazeMine._TemplateWith(' + dataCode + ', function () { return ' +
-              includeCode + '; })';
+              includeCode + '; },\'' + path[0] + '\')';
           }
 
           // XXX BACK COMPAT - UI is the old name, Template is the new
@@ -2740,7 +2740,6 @@ BlazeTools.EmitCode = function (value) {
     });
     view.__templateVar = templateVar;
     view.onViewCreated(function () {
-      console.log("Gandecki templateOrFunction()", templateOrFunction());
         templateVar.set(templateOrFunction());
     });
     view.__startsNewLexicalScope = true;

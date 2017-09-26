@@ -1,7 +1,14 @@
 <template name="parentTemplate">
     <div>Parent: {{> nestedWithParams param=hello test="not hello"}}</div>
+    {{#each returnObject}}
+    <div>Parent with object params: {{> anotherNestedWithObjectParam thing.inside.object}}</div>
+    {{/each}}
 </template>
 
 <template name="nestedWithParams">
     <div>Child: {{param}} {{test}} Param Again - {{almostReactivelyWithParentParam}}</div>
+</template>
+
+<template name="anotherNestedWithObjectParam">
+    <div>{{this}}</div>
 </template>

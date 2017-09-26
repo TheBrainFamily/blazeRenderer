@@ -9,7 +9,7 @@
   },
   "jest": {
     "snapshotSerializers": [
-      "/Users/lukaszgandecki/projects/renderBlazeNoMateor/node_modules/jest-html"
+      "/Users/tomaszwilczek/Projects/blazeRenderer/node_modules/jest-blaze-html"
     ]
   },
   "dependencies": {

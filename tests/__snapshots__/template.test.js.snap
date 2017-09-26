@@ -60,6 +60,11 @@ Array [
   },
   Object {
     "cheerio": [Function],
+    "templateFile": "imports/client/lib/nestedTemplateWithParameters.html",
+    "templateName": "anotherNestedWithObjectParam",
+  },
+  Object {
+    "cheerio": [Function],
     "templateFile": "imports/client/lib/nestedWithInstance.html",
     "templateName": "parentWithInstance",
   },
@@ -101,6 +106,11 @@ exports[`renders nested template with params and this.data in onCreated 1`] = `
     <div>Parent: 
     <div>Child: is it? not hello Param Again - is it?</div>
 </div>
+    
+    <div>Parent with object params: 
+    <div>[object Object]</div>
+</div>
+    
 "
 `;
 
@@ -219,6 +229,7 @@ exports[`renders templateWithContentBlock 1`] = `
     <div>External
     
     <div>div from nested template
+        this is from my own helper sdf
     
         <div>div from the parent template inside the nested abc</div>
     
