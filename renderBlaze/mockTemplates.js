@@ -31,7 +31,7 @@ var handler = {
           },
           getHelpers: function () {
             function wrapperFunction(key) {
-              const targetObject = helpers[key] ? helpers : target.globalHelpers;
+              const targetObject = _.isUndefined(helpers[key]) ? target.globalHelpers : helpers
               if (!_.isFunction(targetObject[key])) {
                 wrappedHelpers[key] = targetObject[key];
               }
