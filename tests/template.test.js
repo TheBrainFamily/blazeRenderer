@@ -75,3 +75,5 @@ it('helpers take arguments properly', () => {
 //TODO need a test for skipping the each on undefined.
 
 //TODO need a test for helper with a value of undefined
+
+//TODO need a test for multiline {{#templateName

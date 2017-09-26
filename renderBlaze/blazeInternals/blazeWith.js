@@ -130,11 +130,8 @@ BlazeMine._getTemplate = function (name, templateInstance) {
       var view = this;
       console.log("Gandecki window.returnInternals()", name);
       // console.log("Gandecki this", this);
-      return [
-        SpacebarsMine.include(
-          window.hackedInTemplates[name]
-        )
-      ];
+      return [SpacebarsMine.include(window.hackedInTemplates[name].bind(this))]
+
     }
 
 
@@ -154,32 +151,6 @@ BlazeMine._getGlobalHelper = function (name, templateInstance) {
   return null;
 };
 
-function test() {
-  var view = this;
-  return ["\n    ", HTMLMine.DIV("External\n    ", BlazeMine._TemplateWith(function() {
-    return {
-      test: SpacebarsMine.call("abc")
-    };
-  }, function() {
-    return SpacebarsMine.include(
-      (function () {
-          return [
-            '\n        ',
-            HTMLMine.DIV('inside div', BlazeMine.View('lookup:test',
-              function () {
-                return SpacebarsMine.mustache(view.lookup('test'))
-              }
-            )),
-            '\n    ']
-        }
-
-    ), (function() {
-      return ["\n        ", HTMLMine.DIV("inside div", BlazeMine.View("lookup:test", function() {
-        return SpacebarsMine.mustache(view.lookup("test"));
-      })), "\n    "];
-    }));
-  }), "\n    "), "\n"];
-}
 
 
 /**

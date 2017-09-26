@@ -52,7 +52,7 @@ export const parseTemplates = function (templateFiles) {
         var cheerio = require('cheerio');
         //TODO add test cases for multiline {{> }}
         //TODO add test case for a case when {{> were}} <- no space
-        $ = cheerio.load(template.toString().replace(/{{> *([^\s}]*)([^}]*)}}/g, '{{{ includeReplacement \'$1\' $2 }}}'));
+        $ = cheerio.load(template.toString().replace(/{{(>) ?(Template.contentBlock)/g, '{{ $2').replace(/{{> *([^\s}]*)([^}]*)}}/g, '{{{ includeReplacement \'$1\' $2 }}}'));
         $('template').each((index, foundTemplate) => {
             templatesToFilesMap.push({templateName: $(foundTemplate).attr('name'), templateFile, cheerio: $})
         })
@@ -76,9 +76,9 @@ export const renderBlazeWithTemplates = function (templateName, parsedTemplates)
 
       let cheerio = parsedTemplates.find(template => template.templateName === templateName).cheerio
 
-      let template = cheerio(`template[name='${templateName}']`).html().toString().replace(/&gt;/g, ">").replace(/&apos;/g, "'").replace(/&quot;/g, '"');
+      let template = cheerio(`template[name='${templateName}']`).html().toString().replace(/&gt;/g, ">").replace(/&apos;/g, "'").replace(/&quot;/g, '"')
 
-      let myRegexp = /{{ ?#(?!.*if|.*unless|.*each)([^ ]*).*}}/g;
+      let myRegexp = /{{ ?#(?!.*if|.*unless|.*each|.*with)([^ }]*).*/g
 
       let match = myRegexp.exec(template);
 
@@ -88,7 +88,7 @@ export const renderBlazeWithTemplates = function (templateName, parsedTemplates)
         // matched text: match[0]
         // match start: match.index
         // capturing group n: match[n]
-        matchedInsideTemplateNames.push(match[1])
+        matchedInsideTemplateNames.push(match[1].trim())
         match = myRegexp.exec(template);
       }
 
