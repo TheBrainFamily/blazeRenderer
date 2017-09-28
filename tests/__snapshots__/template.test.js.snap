@@ -6,12 +6,6 @@ exports[`helpers take arguments properly 1`] = `
 "
 `;
 
-exports[`helpers take arguments properly 2`] = `
-"
-    inside hello outside
-"
-`;
-
 exports[`parse templates 1`] = `
 Array [
   Object {
@@ -237,10 +231,11 @@ exports[`renders template with with 1`] = `
     <div>
         outside with
         
-            really beautiful
+            with from an object really beautiful
             
-                really beautiful
-                really beautiful
+            Using object
+                this directly really beautiful
+                through helper really beautiful
             
         
         outside again
@@ -357,7 +352,8 @@ exports[`template pass arguments properly 1`] = `
             should display \\"some value\\" below
             
     should displayed passed argument:
-    some value
+    this directly - some value
+    this through helper - some value
 
         </div>
     

@@ -2,10 +2,11 @@
     <div>
         outside with
         {{#with myBeautifulObject}}
-            {{ beautifulValue }}
+            with from an object {{ beautifulValue }}
             {{#with beautifulValue}}
-                {{ this }}
-                {{ throughHelper this }}
+            Using object
+                this directly {{ this }}
+                through helper {{ throughHelper this }}
             {{/with}}
         {{/with}}
         outside again

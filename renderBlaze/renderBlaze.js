@@ -52,7 +52,7 @@ export const parseTemplates = function (templateFiles) {
         var cheerio = require('cheerio');
         //TODO add test cases for multiline {{> }}
         //TODO add test case for a case when {{> were}} <- no space
-        $ = cheerio.load(template.toString().replace(/{{(>) ?(Template.contentBlock)/g, '{{ $2').replace(/{{> *([^\s}]*)([^}]*)}}/g, '{{{ includeReplacement \'$1\' $2 }}}').replace(/{{ *(this)/g, '{{ _myOwnThis'));
+        $ = cheerio.load(template.toString().replace(/{{(>) ?(Template.contentBlock)/g, '{{ $2').replace(/{{> *([^\s}]*)([^}]*)}}/g, '{{{ includeReplacement \'$1\' $2 }}}').replace(/({{|{{.*( |=))(this)( |}})/g, '$1_myOwnThis$4'));
         $('template').each((index, foundTemplate) => {
             templatesToFilesMap.push({templateName: $(foundTemplate).attr('name'), templateFile, cheerio: $})
         })
