@@ -222,6 +222,10 @@ exports[`renders template with with 1`] = `
         outside with
         
             really beautiful
+            
+                really beautiful
+                really beautiful
+            
         
         outside again
     </div>

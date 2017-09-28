@@ -3,6 +3,10 @@
         outside with
         {{#with myBeautifulObject}}
             {{ beautifulValue }}
+            {{#with beautifulValue}}
+                {{ this }}
+                {{ throughHelper this }}
+            {{/with}}
         {{/with}}
         outside again
     </div>
