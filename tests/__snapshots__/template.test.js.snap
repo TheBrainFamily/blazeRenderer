@@ -6,6 +6,12 @@ exports[`helpers take arguments properly 1`] = `
 "
 `;
 
+exports[`helpers take arguments properly 2`] = `
+"
+    inside hello outside
+"
+`;
+
 exports[`parse templates 1`] = `
 Array [
   Object {
@@ -77,6 +83,16 @@ Array [
     "cheerio": [Function],
     "templateFile": "imports/client/lib/onCreatedTemplate.html",
     "templateName": "onCreatedTemplate",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "imports/client/lib/passDataToTemplate.html",
+    "templateName": "passDataToTemplate",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "imports/client/lib/passDataToTemplate.html",
+    "templateName": "anotherTemplate",
   },
   Object {
     "cheerio": [Function],
@@ -332,4 +348,18 @@ exports[`template  renders properly 1`] = `
     <p>but this should show up (else)</p>
 
 </div>"
+`;
+
+exports[`template pass arguments properly 1`] = `
+"
+    
+        <div>
+            should display \\"some value\\" below
+            
+    should displayed passed argument:
+    some value
+
+        </div>
+    
+"
 `;
