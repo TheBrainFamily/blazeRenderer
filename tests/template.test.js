@@ -78,3 +78,15 @@ it('helpers take arguments properly', () => {
 //TODO need a test for helper with a value of undefined
 
 //TODO need a test for multiline {{#templateName
+
+
+// {{#with myBeautifulObject}}
+// {{ this }}
+// {{/with}}
+// for
+// myBeautifulObject: function() {
+//   return "really beautiful"
+//
+// }
+// didn't work. Passing this to function works, but not displaying it directly.
+// We need a test for both and verify the functionality with this inside with

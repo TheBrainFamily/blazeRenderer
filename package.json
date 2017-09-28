@@ -7,11 +7,7 @@
     "test": "jest",
     "jest-html": "jest-html"
   },
-  "jest": {
-    "snapshotSerializers": [
-      "/Users/tomaszwilczek/Projects/blazeRenderer/node_modules/jest-blaze-html"
-    ]
-  },
+  "jest": {},
   "dependencies": {
     "babel-jest": "^21.0.2",
     "babel-runtime": "^6.20.0",

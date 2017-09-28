@@ -27,9 +27,3 @@ Template.nestedWithParams.helpers({
 Template.nestedWithParams.onCreated(function() {
   this.reactiveVariableWithParam = new ReactiveVar(this.data.param)
 })
-
-Template.anotherNestedWithObjectParam.helpers({
-  almostReactivelyWithParentParam: function() {
-    return Template.instance().reactiveVariableWithParam.get()
-  }
-})

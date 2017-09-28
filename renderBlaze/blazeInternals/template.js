@@ -176,7 +176,6 @@ Template.prototype.constructView = function (contentFunc, elseFunc) {
       inst.firstNode = null;
       inst.lastNode = null;
     }
-    console.log("Gandecki inst", inst.template);
     return inst;
   };
 

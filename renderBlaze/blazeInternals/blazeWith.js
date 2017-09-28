@@ -123,20 +123,16 @@ BlazeMine._lexicalBindingLookup = function (view, name) {
 // templateInstance argument is provided to be available for possible
 // alternative implementations of this function by 3rd party packages.
 BlazeMine._getTemplate = function (name, templateInstance) {
-  // console.log('Gandecki templateInstance', templateInstance)
   return new BlazeMine.Template(name,
 
     function() {
       var view = this;
-      console.log("Gandecki window.returnInternals()", name);
-      // console.log("Gandecki this", this);
       return [SpacebarsMine.include(window.hackedInTemplates[name].bind(this))]
 
     }
 
 
   )
-  console.log("Gandecki name", name);
   if ((name in BlazeMine.Template) && (BlazeMine.Template[name] instanceof BlazeMine.Template)) {
     return BlazeMine.Template[name];
   }
@@ -259,7 +255,6 @@ BlazeMine.View.prototype.lookup = function (name, _options) {
   }
   // 3. look up a template by name
   if (lookupTemplate && ((foundTemplate = BlazeMine._getTemplate(name, boundTmplInstance)) != null)) {
-    console.log("here again", name)
     // return null
     return foundTemplate;
   }
@@ -355,7 +350,7 @@ BlazeMine._calculateCondition = function (cond) {
 BlazeMine.With = function (data, contentFunc, templateName) {
   var view = BlazeMine.View('with', contentFunc);
 
-  view.dataVar = {
+    view.dataVar = {
     set(data) {
       this.data = data;
     },
@@ -369,7 +364,13 @@ BlazeMine.With = function (data, contentFunc, templateName) {
     Template[templateName]._runOnCreatedCallback()
     if (typeof data === 'function') {
       // `data` is a reactive function
-        view.dataVar.set(Object.assign(data(), Template[templateName].data));
+      const dataResult = data();
+      if (typeof dataResult === "string") {
+        view.dataVar.set(dataResult);
+      } else {
+        view.dataVar.set(Object.assign({}, data(), Template[templateName].data));
+      }
+      Template[templateName].data = Object.assign({}, data(), Template[templateName].data)
     } else {
       view.dataVar.set(data);
     }

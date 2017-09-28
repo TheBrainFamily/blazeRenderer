@@ -108,7 +108,11 @@ exports[`renders nested template with params and this.data in onCreated 1`] = `
 </div>
     
     <div>Parent with object params: 
-    <div>[object Object]</div>
+    <div>thing</div>
+</div>
+    
+    <div>Parent with object params: 
+    <div>another</div>
 </div>
     
 "
@@ -229,7 +233,7 @@ exports[`renders templateWithContentBlock 1`] = `
     <div>External
     
     <div>div from nested template
-        this is from my own helper sdf
+        this is from my own helper sdf abc
     
         <div>div from the parent template inside the nested abc</div>
     

@@ -52,7 +52,7 @@ export const parseTemplates = function (templateFiles) {
         var cheerio = require('cheerio');
         //TODO add test cases for multiline {{> }}
         //TODO add test case for a case when {{> were}} <- no space
-        $ = cheerio.load(template.toString().replace(/{{(>) ?(Template.contentBlock)/g, '{{ $2').replace(/{{> *([^\s}]*)([^}]*)}}/g, '{{{ includeReplacement \'$1\' $2 }}}'));
+        $ = cheerio.load(template.toString().replace(/{{(>) ?(Template.contentBlock)/g, '{{ $2').replace(/{{> *([^\s}]*)([^}]*)}}/g, '{{{ includeReplacement \'$1\' $2 }}}').replace(/{{ *(this)/g, '{{ _myOwnThis'));
         $('template').each((index, foundTemplate) => {
             templatesToFilesMap.push({templateName: $(foundTemplate).attr('name'), templateFile, cheerio: $})
         })
@@ -67,8 +67,11 @@ export const renderBlazeWithTemplates = function (templateName, parsedTemplates)
     parsedTemplates = parseTemplates(returnAllTemplates('imports/').concat(returnAllTemplates('client/')))
   }
     const includeReplacement = function includeReplacement(templateName) {
-        const passedArguments = Array.from(arguments)[1] ? Array.from(arguments)[1]['hash'] : {}
-        Template[templateName].helpers = Object.assign({}, Template[templateName].getHelpers(), passedArguments, {isInRole: function() { return true }}, {$or: function(arg1, arg2) { return arg1 || arg2}}, {$gt: function(arg1, arg2) { return arg1 > arg2}}, {pathFor: function(arg1, arg2) { return `${arg1}/${arg2}`}})
+    let passedArguments;
+    if (Array.from(arguments)[1] ) {
+      passedArguments = Array.from(arguments)[1]['hash']  ? Array.from(arguments)[1]['hash'] : {_myOwnData: Array.from(arguments)[1]}
+    }
+        Template[templateName].helpers = Object.assign({}, Template[templateName].getHelpers(), passedArguments, {isInRole: function() { return true }}, {$or: function(arg1, arg2) { return arg1 || arg2}}, {$gt: function(arg1, arg2) { return arg1 > arg2}}, {$eq: function(arg1, arg2) { return arg1 === arg2 }}, {pathFor: function(arg1, arg2) { return `${arg1}/${arg2}`}}, {_myOwnThis: function() {return this._myOwnData}})
 
       //TODO add test for isInRole, and most probably make this configurable instead of hardcoded.
       // Used in https://github.com/alanning/meteor-roles

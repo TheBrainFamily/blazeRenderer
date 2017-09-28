@@ -2718,9 +2718,6 @@ BlazeTools.EmitCode = function (value) {
       var template = templateOrFunction;
       if (! template)
         throw new Error("Expected template or null, found: " + template);
-      // console.log("Gandecki contentFunc", contentFunc);
-      // console.log("Gandecki elseFunc", elseFunc);
-      console.log("Gandecki templateOrFunction", templateOrFunction);
       var view = templateOrFunction.constructView(contentFunc, elseFunc);
       view.__startsNewLexicalScope = true;
       return view;
@@ -2735,7 +2732,6 @@ BlazeTools.EmitCode = function (value) {
       if (! template)
         throw new Error("Expected template or null, found: " + template);
       return template
-      console.log("Gandecki template", template);
       return template.constructView(contentFunc, elseFunc);
     });
     view.__templateVar = templateVar;
