@@ -275,15 +275,22 @@ BlazeMine.View.prototype.lookup = function (name, _options) {
   // 5. look up in a data context
   return function () {
     var isCalledAsFunction = (arguments.length > 0);
+	var data;
 
-    var data;
-    //TODO I think this is obviously wrong pattern ;-)
+	let objectToInclude = {};
+	const gotData = BlazeMine.getData()
+	if (typeof gotData === "string") {
+	  objectToInclude._myOwnData = gotData;
+	} else {
+	  objectToInclude = gotData;
+	}
+
     if (parentData.includeReplacement) {
-      data = Object.assign({}, parentData, BlazeMine.getData());
+      data = Object.assign({}, parentData, objectToInclude);
     } else if (parentDataTwo.includeReplacement) {
-      data = Object.assign({}, parentData, parentDataTwo, BlazeMine.getData());
+      data = Object.assign({}, parentData, parentDataTwo, objectToInclude);
     } else if (parentDataThree.includeReplacement) {
-      data = Object.assign({}, parentData, parentDataTwo, parentDataThree, BlazeMine.getData());
+      data = Object.assign({}, parentData, parentDataTwo, parentDataThree, objectToInclude);
     } else {
       data = BlazeMine.getData()
     }
