@@ -92,7 +92,7 @@ Array [
   Object {
     "cheerio": [Function],
     "templateFile": "imports/client/lib/passDataToTemplate.html",
-    "templateName": "anotherTemplate",
+    "templateName": "templateToPassDataTo",
   },
   Object {
     "cheerio": [Function],
