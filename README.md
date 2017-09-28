@@ -19,10 +19,3 @@ Look at this to understand what I'm talking about:
 # TODO
 
 At this moment the blaze code is super messy, so once I get it to work, and have tests in place I will spend some time refactoring, and putting it in modules. Basically, remove the old Meteor way of doing everything-global, and get it to nicely organized import/export structure (similarly to what I've done with parts of minimongo here: https://github.com/lgandecki/modifyjs
-
-Constructions like:
-{{#templateName myArgument="super argument"}}
-<div>{{myArgument}</div>
-{{/templateName}}
-
-Don't work yet. 
