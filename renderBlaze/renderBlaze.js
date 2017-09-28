@@ -29,7 +29,7 @@ export const renderBlazeWithData = function renderBlaze(templateFile, templateNa
         data = data || {};
         data = Object.assign({}, data, {includeReplacement})
 
-        return toHTML(data, $(`template[name='${templateName}']`).html().toString().replace(/&gt;/g, ">").replace(/&apos;/g, "'").replace(/&quot;/g, '"'));
+		return toHTML(data, $(`template[name='${templateName}']`).html().toString().replace(/&gt;/g, ">").replace(/&apos;/g, "'").replace(/&quot;/g, '"'), templateName);
     }
 
     const template = fs.readFileSync(templateFile)
