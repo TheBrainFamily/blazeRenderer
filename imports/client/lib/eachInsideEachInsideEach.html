@@ -1,16 +1,19 @@
 <template name="eachInsideEachInsideEach">
     <div>
         {{#each forEachOneFirst}}
-        first {{test}}
+        <div><span>first {{test}}</span>
         {{#each forEachOneSecond}}
-        second {{test}}
+        <div><span>second {{test}}</span>
         {{#each forEachOneThird}}
-        third {{test}}
+        <div><span>third {{test}}</span>
         {{#each forEachOneFourth}}
-        fourth {{test}}
+            <div><span>fourth {{test}}</span></div>
         {{/each}}
+        </div>
         {{/each}}
+        </div>
         {{/each}}
+        </div>
         {{/each}}
     </div>
 </template>

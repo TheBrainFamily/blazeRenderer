@@ -1,0 +1,45 @@
+<template name="toTable">
+    Przesylac przesyla ale nie moge eachowac ponizej. Each nie dostaje zmiennej tak jabky. Tak sie dzieje tylko w table.
+    Przy include dziala.
+    {{#mineTable passedObjectOne=tableRowData abc="def"}}
+    {{#each tableRowData}}
+    <tr>
+        <td>{{name}}</td>
+        <td>{{number}}</td>
+        <td>{{> someOtherTemplate dates.month}}</td>
+        {{#if true}}
+        <td>Am I missing html tags?</td>
+        {{else}}
+        <td>Should not be displayed</td>
+        {{/if}}
+    </tr>
+    {{/each}}
+
+    {{/mineTable}}
+</template>
+
+<template name="mineTable">
+    <table>
+        abc
+        {{#each passedObjectOne}}
+        <td class="passedObject">
+            <span class="insidePsased">{{number}}</span>
+        </td>
+        {{/each}}
+        <td class="outsideeach">
+            {{> label}}
+        </td>
+        <tbody class="contentBlock">
+        {{> Template.contentBlock }}
+        </tbody>
+    </table>
+</template>
+
+
+<template name="someOtherTemplate">
+    <div>I am printing the MONTH: {{printThisHelper this}}</div>
+</template>
+
+<template name="label">
+    <span> SOME BEAUTIFUL LABEL</span>
+</template>
