@@ -26,12 +26,12 @@ Array [
   Object {
     "cheerio": [Function],
     "templateFile": "imports/client/lib/contentBlockTable.html",
-    "templateName": "table",
+    "templateName": "toTable",
   },
   Object {
     "cheerio": [Function],
     "templateFile": "imports/client/lib/contentBlockTable.html",
-    "templateName": "toTable",
+    "templateName": "table",
   },
   Object {
     "cheerio": [Function],
@@ -397,6 +397,7 @@ exports[`template pass arguments properly 1`] = `
 
 exports[`template renders contentBlock in right order 1`] = `
 "
+   
     
             
             
@@ -405,8 +406,41 @@ exports[`template renders contentBlock in right order 1`] = `
 
             
         
-        <div>div from the parent template inside the nested </div>
+    
+        <tr>
+            <td>first</td>
+            <td>1</td>
+            <td>
+    <div>I am printing the MONTH: January</div>
+</td><td>Am I missing html tags?</td><td>Should not be displayed</td></tr>
+            
+                
+            
         
+    
+        <tr>
+            <td>second</td>
+            <td>2</td>
+            <td>
+    <div>I am printing the MONTH: February</div>
+</td><td>Am I missing html tags?</td><td>Should not be displayed</td></tr>
+            
+                
+            
+        
+    
+        <tr>
+            <td>third</td>
+            <td>3</td>
+            <td>
+    <div>I am printing the MONTH: March</div>
+</td><td>Am I missing html tags?</td><td>Should not be displayed</td></tr>
+            
+                
+            
+        
+    
+
     
     <table>
         <thead><tr>
@@ -415,5 +449,6 @@ exports[`template renders contentBlock in right order 1`] = `
         </thead>
     <tbody></tbody>
     </table>
+
 "
 `;

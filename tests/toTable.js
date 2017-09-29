@@ -5,3 +5,7 @@ Template.toTable.helpers({
     {name: 'third', number: 3, dates: {month: 'March'}}
   ]
 })
+
+Template.someOtherTemplate.helpers({
+  printThisHelper: (value) => value
+})
