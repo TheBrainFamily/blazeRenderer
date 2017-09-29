@@ -1,130 +1,235 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`helpers take arguments properly 1`] = `
-"
-    inside hello outside
-"
-`;
+exports[`helpers take arguments properly 1`] = `"inside hello outside"`;
 
 exports[`parse templates 1`] = `
 Array [
   Object {
-    "cheerio": [Function],
+    "cheerio": "",
     "templateFile": "imports/client/lib/additionalTemplates.html",
     "templateName": "additionalOne1",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "From one 2
+    {{{ includeReplacement 'nestedTemplate'   }}}",
     "templateFile": "imports/client/lib/additionalTemplates.html",
     "templateName": "templateFromExternalFile",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "",
     "templateFile": "imports/client/lib/additionalTemplates.html",
     "templateName": "additionalOne3",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "Przesylac przesyla ale nie moge eachowac ponizej. Each nie dostaje zmiennej tak jabky. Tak sie dzieje tylko w table.
+    Przy include dziala.
+    {{#mineTable passedObjectOne=tableRowData abc=\\"def\\"}}
+    {{#each tableRowData}}
+    <tr>
+        <td>{{name}}</td>
+        <td>{{number}}</td>
+        <td>{{{ includeReplacement 'someOtherTemplate'  dates.month }}}</td>
+        {{#if true}}
+        <td>Am I missing html tags?</td>
+        {{else}}
+        <td>Should not be displayed</td>
+        {{/if}}
+    </tr>
+    {{/each}}
+
+    {{/mineTable}}",
     "templateFile": "imports/client/lib/contentBlockTable.html",
     "templateName": "toTable",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "<table>
+        abc
+        {{#each passedObjectOne}}
+        <td class=\\"passedObject\\">
+            <span class=\\"insidePsased\\">{{number}}</span>
+        </td>
+        {{/each}}
+        <td class=\\"outsideeach\\">
+            {{{ includeReplacement 'label'  }}}
+        </td>
+        <tbody class=\\"contentBlock\\">
+        {{ Template.contentBlock }}
+        </tbody>
+    </table>",
     "templateFile": "imports/client/lib/contentBlockTable.html",
-    "templateName": "table",
+    "templateName": "mineTable",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "<div>I am printing the MONTH: {{printThisHelper _myOwnThis}}</div>",
     "templateFile": "imports/client/lib/contentBlockTable.html",
     "templateName": "someOtherTemplate",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "<span> SOME BEAUTIFUL LABEL</span>",
     "templateFile": "imports/client/lib/contentBlockTable.html",
     "templateName": "label",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "<div>
+        {{#each forEachOneFirst}}
+        <div><span>first {{test}}</span>
+        {{#each forEachOneSecond}}
+        <div><span>second {{test}}</span>
+        {{#each forEachOneThird}}
+        <div><span>third {{test}}</span>
+        {{#each forEachOneFourth}}
+            <div><span>fourth {{test}}</span></div>
+        {{/each}}
+        </div>
+        {{/each}}
+        </div>
+        {{/each}}
+        </div>
+        {{/each}}
+    </div>",
     "templateFile": "imports/client/lib/eachInsideEachInsideEach.html",
     "templateName": "eachInsideEachInsideEach",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "{{say \\"hello\\"}}",
     "templateFile": "imports/client/lib/helpersWithArguments.html",
     "templateName": "helpersWithArguments",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "<div>
+        <div>{{ hello}} {{nope}}</div>
+        {{{ includeReplacement 'nestedTemplate'   }}}
+        <ul>
+            {{#each favoriteColors}}
+            {{{ includeReplacement 'colorRow'   }}}
+            {{/each}}
+        </ul>
+
+        {{#if thisIsTrue}}
+            <p>This is true (if true)</p>
+            {{/if}}
+            {{#unless thisIsNotTrue}}
+            <p>Should show up - (unless false)</p>
+            {{/unless}}
+            {{#if thisIsNotTrue}}
+            <p>This shouldn't show up (if false)</p>
+            {{else}}
+            <p>but this should show up (else)</p>
+            {{/if}}
+    </div>",
     "templateFile": "imports/client/lib/main.html",
     "templateName": "testTemplate",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "<div>this is from nested template</div>",
     "templateFile": "imports/client/lib/main.html",
     "templateName": "nestedTemplate",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "<li style=\\"color:{{color}}\\">{{ color }}</li>",
     "templateFile": "imports/client/lib/main.html",
     "templateName": "colorRow",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "<div>Parent: {{{ includeReplacement 'nestedWithParams'  param=hello test=\\"not hello\\" }}}</div>
+    {{#each returnObject}}
+    <div>Parent with object params: {{{ includeReplacement 'anotherNestedWithObjectParam'  thing.inside.object }}}</div>
+    {{/each}}",
     "templateFile": "imports/client/lib/nestedTemplateWithParameters.html",
     "templateName": "parentTemplate",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "<div>Child: {{param}} {{test}} Param Again - {{almostReactivelyWithParentParam}}</div>",
     "templateFile": "imports/client/lib/nestedTemplateWithParameters.html",
     "templateName": "nestedWithParams",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "<div>{{_myOwnThis}}</div>",
     "templateFile": "imports/client/lib/nestedTemplateWithParameters.html",
     "templateName": "anotherNestedWithObjectParam",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "<div>{{fromParentTemplateInstance}}
+        {{{ includeReplacement 'nestedWithInstance'   }}}
+    {{fromParentTemplateInstance}}</div>",
     "templateFile": "imports/client/lib/nestedWithInstance.html",
     "templateName": "parentWithInstance",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "<div>{{fromNestedTemplateInstance}}</div>",
     "templateFile": "imports/client/lib/nestedWithInstance.html",
     "templateName": "nestedWithInstance",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "<div>{{fromTemplateInstance}}</div>",
     "templateFile": "imports/client/lib/onCreatedTemplate.html",
     "templateName": "onCreatedTemplate",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "{{#with dataSource}}
+        <div>
+            should display \\"some value\\" below
+            {{{ includeReplacement 'templateToPassDataTo'  key.value }}}
+        </div>
+    {{/with}}",
     "templateFile": "imports/client/lib/passDataToTemplate.html",
     "templateName": "passDataToTemplate",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "<span>should displayed passed argument:</span>
+    <span>this directly - {{_myOwnThis}}</span>
+    <span>this through helper - {{displayHelper _myOwnThis}}</span>",
     "templateFile": "imports/client/lib/passDataToTemplate.html",
     "templateName": "templateToPassDataTo",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "{{#if areNotEqual 'test' 'abc'}}
+    <div>
+        <p>Register helper working properly!!!</p>
+    </div>
+    {{/if}}",
     "templateFile": "imports/client/lib/registeredHelper.html",
     "templateName": "forRegisteredHelper",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "<div>External
+    {{#templateWithContentBlockInside passed=innerBlockData someString=\\"someString\\"}}
+        <div>div from the parent template inside the nested {{someString}}</div>
+        {{#each list}}
+        <p>{{something}}</p>
+        {{/each}}
+    {{/templateWithContentBlockInside}}
+    </div>",
     "templateFile": "imports/client/lib/templateWithContentBlock.html",
     "templateName": "templateWithContentBlockOut",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "<div>div from nested template {{myOwnHelper 'sdf'}}</div>
+        <span>should be each below on passed argument</span>
+            {{#each passed}}
+            <span>{{arg}}</span>
+            {{/each}}
+
+        <span>should be content block below</span>
+            <div>
+            {{ Template.contentBlock }}
+            </div>",
     "templateFile": "imports/client/lib/templateWithContentBlock.html",
     "templateName": "templateWithContentBlockInside",
   },
   Object {
-    "cheerio": [Function],
+    "cheerio": "<div>
+        outside with
+        {{#with myBeautifulObject}}
+            with from an object {{ beautifulValue }}
+            {{#with beautifulValue}}
+            Using object
+                this directly {{ _myOwnThis }}
+                through helper {{ throughHelper _myOwnThis }}
+            {{/with}}
+        {{/with}}
+        outside again
+    </div>",
     "templateFile": "imports/client/lib/withWith.html",
     "templateName": "withWith",
   },
@@ -132,220 +237,188 @@ Array [
 `;
 
 exports[`renders nested template with params and this.data in onCreated 1`] = `
-"
-    <div>Parent: 
+"<div>Parent:
     <div>Child: is it? not hello Param Again - is it?</div>
 </div>
-    
-    <div>Parent with object params: 
+
+<div>Parent with object params:
     <div>thing</div>
 </div>
-    
-    <div>Parent with object params: 
+
+<div>Parent with object params:
     <div>another</div>
-</div>
-    
-"
+</div>"
 `;
 
 exports[`renders properly each inside each inside each 1`] = `
-"
-    <div>
-        
-        first abc
-        
-        second ghi
-        
-        third mno
-        
-        fourth stv
-        
-        fourth xyz
-        
-        
-        third pqr
-        
-        fourth stv
-        
-        fourth xyz
-        
-        
-        
-        second jkl
-        
-        third mno
-        
-        fourth stv
-        
-        fourth xyz
-        
-        
-        third pqr
-        
-        fourth stv
-        
-        fourth xyz
-        
-        
-        
-        
-        first def
-        
-        second ghi
-        
-        third mno
-        
-        fourth stv
-        
-        fourth xyz
-        
-        
-        third pqr
-        
-        fourth stv
-        
-        fourth xyz
-        
-        
-        
-        second jkl
-        
-        third mno
-        
-        fourth stv
-        
-        fourth xyz
-        
-        
-        third pqr
-        
-        fourth stv
-        
-        fourth xyz
-        
-        
-        
-        
+"<div>
+
+    <div><span>first abc</span>
+
+        <div><span>second ghi</span>
+
+            <div><span>third mno</span>
+
+                <div><span>fourth stv</span></div>
+
+                <div><span>fourth xyz</span></div>
+
+            </div>
+
+            <div><span>third pqr</span>
+
+                <div><span>fourth stv</span></div>
+
+                <div><span>fourth xyz</span></div>
+
+            </div>
+
+        </div>
+
+        <div><span>second jkl</span>
+
+            <div><span>third mno</span>
+
+                <div><span>fourth stv</span></div>
+
+                <div><span>fourth xyz</span></div>
+
+            </div>
+
+            <div><span>third pqr</span>
+
+                <div><span>fourth stv</span></div>
+
+                <div><span>fourth xyz</span></div>
+
+            </div>
+
+        </div>
+
     </div>
-"
+
+    <div><span>first def</span>
+
+        <div><span>second ghi</span>
+
+            <div><span>third mno</span>
+
+                <div><span>fourth stv</span></div>
+
+                <div><span>fourth xyz</span></div>
+
+            </div>
+
+            <div><span>third pqr</span>
+
+                <div><span>fourth stv</span></div>
+
+                <div><span>fourth xyz</span></div>
+
+            </div>
+
+        </div>
+
+        <div><span>second jkl</span>
+
+            <div><span>third mno</span>
+
+                <div><span>fourth stv</span></div>
+
+                <div><span>fourth xyz</span></div>
+
+            </div>
+
+            <div><span>third pqr</span>
+
+                <div><span>fourth stv</span></div>
+
+                <div><span>fourth xyz</span></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>"
 `;
 
-exports[`renders template with onCreated callback and using Template.instance() 1`] = `
-"
-    <div>value of reactive variable</div>
-"
-`;
+exports[`renders template with onCreated callback and using Template.instance() 1`] = `"<div>value of reactive variable</div>"`;
 
 exports[`renders template with onCreated callback and using Template.instance() with two templates, one nested 1`] = `
-"
-    <div>parent - value of reactive variable
-        
+"<div>parent - value of reactive variable
     <div>nested - value of reactive variable</div>
-
-    parent - value of reactive variable</div>
-"
+    parent - value of reactive variable</div>"
 `;
 
 exports[`renders template with with 1`] = `
-"
-    <div>
-        outside with
-        
-            with from an object really beautiful
-            
-            Using object
-                this directly really beautiful
-                through helper really beautiful
-            
-        
-        outside again
-    </div>
-"
+"<div>
+    outside with with from an object really beautiful Using object this directly really beautiful through helper really beautiful outside again
+</div>"
 `;
 
 exports[`renders templateWithContentBlock 1`] = `
-"
-    <div>External
-    
+"<div>External
     <div>div from nested template this is from my own helper sdf someString</div>
-        <span>should be each below on passed argument</span>
-            
-            <span>first</span>
-            
-            <span>second</span>
-            
+    <span>should be each below on passed argument</span>
 
-        <span>should be content block below</span>
-            <div>
-            
+    <span>first</span>
+
+    <span>second</span>
+
+
+    <span>should be content block below</span>
+    <div>
+
         <div>div from the parent template inside the nested someString</div>
-        
+
         <p>args</p>
-        
+
         <p>in</p>
-        
+
         <p>list</p>
-        
-    
-            </div>
+
 
     </div>
-"
+</div>"
 `;
 
 exports[`renders templates in file without data implicitly passed to it 1`] = `
-"
-    <div>
-        <div>is it me you looking for? from a function</div>
-        
+"<div>
+    <div>is it me you looking for? from a function</div>
     <div>this is from nested template</div>
+    <ul>
 
-        <ul>
-            
-            
-    <li style=\\"color:yellow\\">yellow</li>
+        <li style=\\"color:yellow\\">yellow</li>
 
-            
-            
-    <li style=\\"color:blue\\">blue</li>
+        <li style=\\"color:blue\\">blue</li>
 
-            
-            
-    <li style=\\"color:red\\">red</li>
+        <li style=\\"color:red\\">red</li>
 
-            
-        </ul>
+    </ul>
 
-        
-            <p>This is true (if true)</p>
-            
-            
-            <p>Should show up - (unless false)</p>
-            
-            
-            <p>but this should show up (else)</p>
-            
-    </div>
-"
+
+    <p>This is true (if true)</p>
+
+
+    <p>Should show up - (unless false)</p>
+
+
+    <p>but this should show up (else)</p>
+
+</div>"
 `;
 
 exports[`renders templates included cross-files 1`] = `
-"
-    From one 2
-    
-    <div>this is from nested template</div>
-
-"
+"From one 2
+<div>this is from nested template</div>"
 `;
 
 exports[`should have access to functions added by registerHelper 1`] = `
-"
-    
-    <div>
-        <p>Register helper working properly!!!</p>
-    </div>
-    
-"
+"<div>
+    <p>Register helper working properly!!!</p>
+</div>"
 `;
 
 exports[`template  renders properly 1`] = `
@@ -381,30 +454,36 @@ exports[`template  renders properly 1`] = `
 `;
 
 exports[`template pass arguments properly 1`] = `
-"
-    
-        <div>
-            should display \\"some value\\" below
-            
-    should displayed passed argument:
-    this directly - some value
-    this through helper - some value
-
-        </div>
-    
-"
+"<div>
+    should display \\"some value\\" below
+    <span>should displayed passed argument:</span>
+    <span>this directly - some value</span>
+    <span>this through helper - some value</span>
+</div>"
 `;
 
 exports[`template renders contentBlock in right order 1`] = `
 "
    
-    
             
+            <def class=\\"passedeach\\">
+                <span></span>
+            </def>
             
+            <def class=\\"passedeach\\">
+                <span></span>
+            </def>
+            
+            <def class=\\"passedeach\\">
+                <span></span>
+            </def>
+            
+            <def class=\\"outsideeach\\">
                 
     <span> SOME BEAUTIFUL LABEL</span>
 
-            
+            </def>
+    <abc>
         
     
         <tr>
@@ -442,13 +521,7 @@ exports[`template renders contentBlock in right order 1`] = `
     
 
     
-    <table>
-        <thead><tr>
-                
-            </tr><tr></tr>
-        </thead>
-    <tbody></tbody>
-    </table>
+    </abc>
 
 "
 `;

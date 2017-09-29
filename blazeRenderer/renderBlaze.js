@@ -40,17 +40,23 @@ export const renderBlazeWithData = function renderBlaze(templateFile, templateNa
 }
 
 export const parseTemplates = function (templateFiles) {
-    const templatesToFilesMap = []
-    templateFiles.forEach((templateFile) => {
-        const template = fs.readFileSync(templateFile)
-        var cheerio = require('cheerio');
-        //TODO add test cases for multiline {{> }}
-        //TODO add test case for a case when {{> were}} <- no space
-        $ = cheerio.load(template.toString().replace(/{{(>) ?(Template.contentBlock)/g, '{{ $2').replace(/{{> *([^\s}]*)([^}]*)}}/g, '{{{ includeReplacement \'$1\' $2 }}}').replace(/({{|{{.*( |=))(this)( |}})/g, '$1_myOwnThis$4'));
-        $('template').each((index, foundTemplate) => {
-            templatesToFilesMap.push({templateName: $(foundTemplate).attr('name'), templateFile, cheerio: $})
-        })
-    })
+  const templatesToFilesMap = []
+  templateFiles.forEach((templateFile) => {
+    const template = fs.readFileSync(templateFile)
+    //TODO add test cases for multiline {{> }}
+    //TODO add test case for a case when {{> were}} <- no space
+    const parsedText = template.toString().replace(/{{(>) ?(Template.contentBlock)/g, '{{ $2').replace(/{{> *([^\s}]*)([^}]*)}}/g, '{{{ includeReplacement \'$1\' $2 }}}').replace(/({{|{{.*( |=))(this)( |}})/g, '$1_myOwnThis$4').replace(/&gt;/g, '>').replace(/&apos;/g, '\'').replace(/&quot;/g, '"')
+
+    const templateRegex = /<template name=("|')(.*)("|')>((.|\n)*?)<\/template>/gm
+
+    let match = templateRegex.exec(parsedText)
+
+    while (match !== null) {
+      templatesToFilesMap.push({templateName: match[2].trim(), templateFile, cheerio: match[4].trim()})
+      match = templateRegex.exec(parsedText)
+    }
+
+  })
     return templatesToFilesMap;
 }
 
@@ -65,15 +71,18 @@ const renderBlazeWithTemplates = function (templateName, parsedTemplates) {
     if (Array.from(arguments)[1] ) {
       passedArguments = Array.from(arguments)[1]['hash']  ? Array.from(arguments)[1]['hash'] : {_myOwnData: Array.from(arguments)[1]}
     }
-        Template[templateName].helpers = Object.assign({}, Template[templateName].getHelpers(), passedArguments, {isInRole: function() { return true }}, {$or: function(arg1, arg2) { return arg1 || arg2}}, {$gt: function(arg1, arg2) { return arg1 > arg2}}, {$eq: function(arg1, arg2) { return arg1 === arg2 }}, {pathFor: function(arg1, arg2) { return `${arg1}/${arg2}`}}, {_myOwnThis: function() {return this._myOwnData}})
+        Template[templateName].helpers = Object.assign({}, Template[templateName].getHelpers(), passedArguments, {isInRole: function() { return true }}, {$or: function(arg1, arg2) { return arg1 || arg2}}, {$gt: function(arg1, arg2) { return arg1 > arg2}}, {$eq: function(arg1, arg2) { return arg1 === arg2 }}, {$exists: function(arg1) { return !!arg1 }}, {pathFor: function(arg1, arg2) { return `${arg1}/${arg2}`}}, {_myOwnThis: function() {return this._myOwnData}})
 
       //TODO add test for isInRole, and most probably make this configurable instead of hardcoded.
       // Used in https://github.com/alanning/meteor-roles
       data = Object.assign({}, Template[templateName].getHelpers(), {includeReplacement})
 
-      let cheerio = parsedTemplates.find(template => template.templateName === templateName).cheerio
-
-      let template = cheerio(`template[name='${templateName}']`).html().toString().replace(/&gt;/g, ">").replace(/&apos;/g, "'").replace(/&quot;/g, '"')
+      const cheerioPotentially = parsedTemplates.find(template => template.templateName === templateName)
+      if (!cheerioPotentially) {
+        console.log("Gandecki templateName", templateName);
+      }
+      let template = cheerioPotentially.cheerio
+      // console.log(`${templateName} - ${template}`);
 
       let myRegexp = /{{ ?#(?!.*if|.*unless|.*each|.*with)([^ }]*).*/g
 
@@ -92,14 +101,14 @@ const renderBlazeWithTemplates = function (templateName, parsedTemplates) {
 
       let matchedInsideTemplates = matchedInsideTemplateNames.map(name => {
         let cheerioInside = parsedTemplates.find(template => template.templateName === name).cheerio
-        let templateInside = cheerioInside(`template[name='${name}']`).html().toString().replace(/&gt;/g, '>').replace(/&apos;/g, '\'').replace(/&quot;/g, '"')
+        let templateInside = cheerioInside
         return {templateInside, name}
       })
 
 
         return toHTML(data, template, templateName, matchedInsideTemplates);
     }
-    return includeReplacement(templateName)
+    return beautifyHtml(includeReplacement(templateName))
 }
 
 export default renderBlazeWithTemplates;
