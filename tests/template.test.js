@@ -78,6 +78,11 @@ it('template pass arguments properly', () => {
 	require('./passDataToTemplate')
 	expect(renderBlaze('passDataToTemplate')).toMatchSnapshot()
 })
+
+it('template pass arguments properly', () => {
+	require('./eachInEach')
+	expect(renderBlaze('eachInEach')).toMatchSnapshot()
+})
 //TODO need a test for skipping the each on undefined.
 
 //TODO need a test for helper with a value of undefined

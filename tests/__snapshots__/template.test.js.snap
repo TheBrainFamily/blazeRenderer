@@ -25,6 +25,11 @@ Array [
   },
   Object {
     "cheerio": [Function],
+    "templateFile": "imports/client/lib/eachInEach.html",
+    "templateName": "eachInEach",
+  },
+  Object {
+    "cheerio": [Function],
     "templateFile": "imports/client/lib/eachInsideEachInsideEach.html",
     "templateName": "eachInsideEachInsideEach",
   },
@@ -346,6 +351,21 @@ exports[`template  renders properly 1`] = `
 `;
 
 exports[`template pass arguments properly 1`] = `
+"
+    
+        <div>
+            should display \\"some value\\" below
+            
+    should displayed passed argument:
+    this directly - some value
+    this through helper - some value
+
+        </div>
+    
+"
+`;
+
+exports[`template pass arguments properly 2`] = `
 "
     
         <div>
