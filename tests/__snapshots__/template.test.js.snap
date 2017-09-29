@@ -463,65 +463,63 @@ exports[`template pass arguments properly 1`] = `
 `;
 
 exports[`template renders contentBlock in right order 1`] = `
-"
-   
-            
-            <def class=\\"passedeach\\">
-                <span></span>
-            </def>
-            
-            <def class=\\"passedeach\\">
-                <span></span>
-            </def>
-            
-            <def class=\\"passedeach\\">
-                <span></span>
-            </def>
-            
-            <def class=\\"outsideeach\\">
-                
-    <span> SOME BEAUTIFUL LABEL</span>
+"Przesylac przesyla ale nie moge eachowac ponizej. Each nie dostaje zmiennej tak jabky. Tak sie dzieje tylko w table. Przy include dziala.
+<table>
+    abc
 
-            </def>
-    <abc>
-        
-    
+    <td class=\\"passedObject\\">
+        <span class=\\"insidePsased\\">1</span>
+    </td>
+
+    <td class=\\"passedObject\\">
+        <span class=\\"insidePsased\\">2</span>
+    </td>
+
+    <td class=\\"passedObject\\">
+        <span class=\\"insidePsased\\">3</span>
+    </td>
+
+    <td class=\\"outsideeach\\">
+        <span> SOME BEAUTIFUL LABEL</span>
+    </td>
+    <tbody class=\\"contentBlock\\">
+
+
         <tr>
             <td>first</td>
             <td>1</td>
             <td>
-    <div>I am printing the MONTH: January</div>
-</td><td>Am I missing html tags?</td><td>Should not be displayed</td></tr>
-            
-                
-            
-        
-    
+                <div>I am printing the MONTH: January</div>
+            </td>
+
+            <td>Am I missing html tags?</td>
+
+        </tr>
+
         <tr>
             <td>second</td>
             <td>2</td>
             <td>
-    <div>I am printing the MONTH: February</div>
-</td><td>Am I missing html tags?</td><td>Should not be displayed</td></tr>
-            
-                
-            
-        
-    
+                <div>I am printing the MONTH: February</div>
+            </td>
+
+            <td>Am I missing html tags?</td>
+
+        </tr>
+
         <tr>
             <td>third</td>
             <td>3</td>
             <td>
-    <div>I am printing the MONTH: March</div>
-</td><td>Am I missing html tags?</td><td>Should not be displayed</td></tr>
-            
-                
-            
-        
-    
+                <div>I am printing the MONTH: March</div>
+            </td>
 
-    
-    </abc>
+            <td>Am I missing html tags?</td>
 
-"
+        </tr>
+
+
+
+    </tbody>
+</table>"
 `;

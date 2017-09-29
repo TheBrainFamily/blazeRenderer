@@ -79,7 +79,7 @@ it('template pass arguments properly', () => {
 	expect(renderBlaze('passDataToTemplate')).toMatchSnapshot()
 })
 
-it.skip('template renders contentBlock in right order', () => {
+it('template renders contentBlock in right order', () => {
   require('./toTable')
   expect(renderBlaze('toTable')).toMatchSnapshot()
 })
