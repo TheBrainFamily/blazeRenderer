@@ -1,0 +1,44 @@
+<template name="toTable">
+   {{#table passedObjectOne=[{arg: 1}, {arg: 2}, {arg: 3}]}}
+    {{#each tableRowData}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{number}}</td>
+            <td>{{> someOtherTemplate dates.month}}</td>
+            {{#if true}}
+                <td>Am I missing html tags?</td>
+            {{else}}
+                <td>Should not be displayed</td>
+            {{/if}}
+        </tr>
+    {{/each}}
+
+    {{/table}}
+</template>
+
+<template name="table">
+    <table>
+        <thead>
+            {{#each passedObjectOne}}
+            <tr>
+                <span>{{arg}}</span>
+            </tr>
+            {{/each}}
+            <tr>
+                {{> label}}
+            </tr>
+        </thead>
+    <tbody>
+        {{> Template.contentBlock}}
+    </tbody>
+    </table>
+</template>
+
+
+<template name="someOtherTemplate">
+    <div>I am printing the MONTH: {{this}}</div>
+</template>
+
+<template name="label">
+    <span> SOME BEAUTIFUL LABEL</span>
+</template>
