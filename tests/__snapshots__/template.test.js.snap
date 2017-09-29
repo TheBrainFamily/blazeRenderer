@@ -247,12 +247,27 @@ exports[`renders templateWithContentBlock 1`] = `
 "
     <div>External
     
-    <div>div from nested template
-        this is from my own helper sdf abc
+    <div>div from nested template this is from my own helper sdf someString</div>
+        <span>should be each below on passed argument</span>
+            
+            <span>first</span>
+            
+            <span>second</span>
+            
+
+        <span>should be content block below</span>
+            <div>
+            
+        <div>div from the parent template inside the nested someString</div>
+        
+        <p>args</p>
+        
+        <p>in</p>
+        
+        <p>list</p>
+        
     
-        <div>div from the parent template inside the nested abc</div>
-    
-    abc</div>
+            </div>
 
     </div>
 "
