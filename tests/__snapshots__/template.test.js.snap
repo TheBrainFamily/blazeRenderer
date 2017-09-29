@@ -25,6 +25,26 @@ Array [
   },
   Object {
     "cheerio": [Function],
+    "templateFile": "imports/client/lib/contentBlockTable.html",
+    "templateName": "table",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "imports/client/lib/contentBlockTable.html",
+    "templateName": "toTable",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "imports/client/lib/contentBlockTable.html",
+    "templateName": "someOtherTemplate",
+  },
+  Object {
+    "cheerio": [Function],
+    "templateFile": "imports/client/lib/contentBlockTable.html",
+    "templateName": "label",
+  },
+  Object {
+    "cheerio": [Function],
     "templateFile": "imports/client/lib/eachInsideEachInsideEach.html",
     "templateName": "eachInsideEachInsideEach",
   },
@@ -372,5 +392,28 @@ exports[`template pass arguments properly 1`] = `
 
         </div>
     
+"
+`;
+
+exports[`template renders contentBlock in right order 1`] = `
+"
+    
+            
+            
+                
+    <span> SOME BEAUTIFUL LABEL</span>
+
+            
+        
+        <div>div from the parent template inside the nested </div>
+        
+    
+    <table>
+        <thead><tr>
+                
+            </tr><tr></tr>
+        </thead>
+    <tbody></tbody>
+    </table>
 "
 `;
