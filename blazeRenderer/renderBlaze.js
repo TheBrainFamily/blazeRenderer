@@ -65,7 +65,7 @@ const renderBlazeWithTemplates = function (templateName, parsedTemplates) {
     if (Array.from(arguments)[1] ) {
       passedArguments = Array.from(arguments)[1]['hash']  ? Array.from(arguments)[1]['hash'] : {_myOwnData: Array.from(arguments)[1]}
     }
-        Template[templateName].helpers = Object.assign({}, Template[templateName].getHelpers(), passedArguments, {isInRole: function() { return true }}, {$or: function(arg1, arg2) { return arg1 || arg2}}, {$gt: function(arg1, arg2) { return arg1 > arg2}}, {$eq: function(arg1, arg2) { return arg1 === arg2 }}, {pathFor: function(arg1, arg2) { return `${arg1}/${arg2}`}}, {_myOwnThis: function() {return this._myOwnData}})
+        Template[templateName].helpers = Object.assign({}, Template[templateName].getHelpers(), passedArguments, {isInRole: function() { return true }}, {$or: function(arg1, arg2) { return arg1 || arg2}}, {$gt: function(arg1, arg2) { return arg1 > arg2}}, {$eq: function(arg1, arg2) { return arg1 === arg2 }}, {$exists: function(arg1) { return !!arg1 }}, {pathFor: function(arg1, arg2) { return `${arg1}/${arg2}`}}, {_myOwnThis: function() {return this._myOwnData}})
 
       //TODO add test for isInRole, and most probably make this configurable instead of hardcoded.
       // Used in https://github.com/alanning/meteor-roles
