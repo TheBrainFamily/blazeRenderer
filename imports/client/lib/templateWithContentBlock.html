@@ -1,14 +1,23 @@
 <template name="templateWithContentBlockOut">
     <div>External
-    {{#templateWithContentBlockInside test="abc"}}
-        <div>div from the parent template inside the nested {{test}}</div>
+    {{#templateWithContentBlockInside passed=innerBlockData someString="someString"}}
+        <div>div from the parent template inside the nested {{someString}}</div>
+        {{#each list}}
+        <p>{{something}}</p>
+        {{/each}}
     {{/templateWithContentBlockInside}}
     </div>
 </template>
 
 <template name="templateWithContentBlockInside">
-    <div>div from nested template
-        {{myOwnHelper 'sdf'}}
-    {{> Template.contentBlock }}
-    abc</div>
+    <div>div from nested template {{myOwnHelper 'sdf'}}</div>
+        <span>should be each below on passed argument</span>
+            {{#each passed}}
+            <span>{{arg}}</span>
+            {{/each}}
+
+        <span>should be content block below</span>
+            <div>
+            {{> Template.contentBlock }}
+            </div>
 </template>
