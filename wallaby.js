@@ -1,7 +1,7 @@
 module.exports = function (wallaby) {
     return {
         files: [
-            'renderBlaze/**/*.js',
+            'blazeRenderer/**/*.js',
             '*.js',
             'tests/**/*.js',
 

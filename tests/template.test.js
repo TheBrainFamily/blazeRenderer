@@ -1,5 +1,5 @@
-import { renderBlazeWithData, parseTemplates, renderBlazeWithTemplates } from '../renderblaze/renderBlaze';
-import returnAllTemplates from '../renderBlaze/returnAllTemplates';
+import { renderBlazeWithData, parseTemplates, renderBlazeWithTemplates } from '../blazeRenderer/renderBlaze';
+import returnAllTemplates from '../blazeRenderer/returnAllTemplates';
 
 describe('template', function () {
     it(' renders properly', function () {
