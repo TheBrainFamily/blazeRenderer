@@ -1,4 +1,4 @@
-import { renderBlazeWithData, parseTemplates, renderBlazeWithTemplates } from '../blazeRenderer/renderBlaze';
+import renderBlaze, { renderBlazeWithData, parseTemplates } from '../blazeRenderer/renderBlaze';
 import returnAllTemplates from '../blazeRenderer/returnAllTemplates';
 
 describe('template', function () {
@@ -20,78 +20,66 @@ it('parse templates', () => {
 })
 
 it('renders templates included cross-files', () => {
-    expect(renderBlazeWithTemplates('templateFromExternalFile')).toMatchSnapshot()
+    expect(renderBlaze('templateFromExternalFile')).toMatchSnapshot()
 
 })
 
 it('renders templates in file without data implicitly passed to it', () => {
     require('./main')
-    expect(renderBlazeWithTemplates('testTemplate')).toMatchSnapshot()
+    expect(renderBlaze('testTemplate')).toMatchSnapshot()
 })
 
 it('renders template with onCreated callback and using Template.instance()', () => {
     require('./onCreatedTemplate')
-    expect(renderBlazeWithTemplates('onCreatedTemplate')).toMatchSnapshot()
+    expect(renderBlaze('onCreatedTemplate')).toMatchSnapshot()
 })
 
 it('renders template with onCreated callback and using Template.instance() with two templates, one nested', () => {
   require('./nestedWithInstance')
-  expect(renderBlazeWithTemplates('parentWithInstance')).toMatchSnapshot()
+  expect(renderBlaze('parentWithInstance')).toMatchSnapshot()
 })
 
 it('renders nested template with params and this.data in onCreated', () => {
   require('./nestedTemplateWithParameters')
 
-  expect(renderBlazeWithTemplates('parentTemplate')).toMatchSnapshot()
+  expect(renderBlaze('parentTemplate')).toMatchSnapshot()
 })
 
 
 it('renders template with with', () => {
   require('./withWith')
 
-  expect(renderBlazeWithTemplates('withWith')).toMatchSnapshot()
+  expect(renderBlaze('withWith')).toMatchSnapshot()
 })
 
 it('renders properly each inside each inside each', () => {
   require('./eachInsideEachInsideEach')
 
-  expect(renderBlazeWithTemplates('eachInsideEachInsideEach')).toMatchSnapshot()
+  expect(renderBlaze('eachInsideEachInsideEach')).toMatchSnapshot()
 })
 
 it('should have access to functions added by registerHelper', () => {
   require('./registeredHelper')
 
-  expect(renderBlazeWithTemplates('forRegisteredHelper')).toMatchSnapshot()
+  expect(renderBlaze('forRegisteredHelper')).toMatchSnapshot()
 })
 
 it('renders templateWithContentBlock', () => {
   require('./templateWithContentBlock')
-  expect(renderBlazeWithTemplates('templateWithContentBlockOut')).toMatchSnapshot()
+  expect(renderBlaze('templateWithContentBlockOut')).toMatchSnapshot()
 })
 
 it('helpers take arguments properly', () => {
   require('./helpersWithArguments')
-  expect(renderBlazeWithTemplates('helpersWithArguments')).toMatchSnapshot()
+  expect(renderBlaze('helpersWithArguments')).toMatchSnapshot()
 })
 
 it('template pass arguments properly', () => {
 	require('./passDataToTemplate')
-	expect(renderBlazeWithTemplates('passDataToTemplate')).toMatchSnapshot()
+	expect(renderBlaze('passDataToTemplate')).toMatchSnapshot()
 })
 //TODO need a test for skipping the each on undefined.
 
 //TODO need a test for helper with a value of undefined
 
 //TODO need a test for multiline {{#templateName
-
-
-// {{#with myBeautifulObject}}
-// {{ this }}
-// {{/with}}
-// for
-// myBeautifulObject: function() {
-//   return "really beautiful"
-//
-// }
-// didn't work. Passing this to function works, but not displaying it directly.
-// We need a test for both and verify the functionality with this inside with

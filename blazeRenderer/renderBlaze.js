@@ -60,7 +60,7 @@ export const parseTemplates = function (templateFiles) {
     return templatesToFilesMap;
 }
 
-export const renderBlazeWithTemplates = function (templateName, parsedTemplates) {
+const renderBlazeWithTemplates = function (templateName, parsedTemplates) {
   if (parsedTemplates && parsedTemplates.length > 0) {
 
   } else {
@@ -108,4 +108,4 @@ export const renderBlazeWithTemplates = function (templateName, parsedTemplates)
     return includeReplacement(templateName)
 }
 
-
+export default renderBlazeWithTemplates;
