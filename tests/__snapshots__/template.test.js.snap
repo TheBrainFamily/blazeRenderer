@@ -30,6 +30,11 @@ Array [
   },
   Object {
     "cheerio": [Function],
+    "templateFile": "imports/client/lib/eachInEach.html",
+    "templateName": "inEach",
+  },
+  Object {
+    "cheerio": [Function],
     "templateFile": "imports/client/lib/eachInsideEachInsideEach.html",
     "templateName": "eachInsideEachInsideEach",
   },
@@ -367,15 +372,21 @@ exports[`template pass arguments properly 1`] = `
 
 exports[`template pass arguments properly 2`] = `
 "
+    <div>
+        each in each
+        
+        <div class=\\"outsideNsted\\">thingLabel</div>
+        <div class=\\"aroundNested\\">
+    inEach template
+    <div class=\\"inEachFirst\\">thingLabel</div>
     
-        <div>
-            should display \\"some value\\" below
-            
-    should displayed passed argument:
-    this directly - some value
-    this through helper - some value
-
-        </div>
     
+    if false
+    <div class=\\"inEachLast\\">inEachThingLabel</div>
+    
+    
+</div>
+        
+    </div>
 "
 `;
