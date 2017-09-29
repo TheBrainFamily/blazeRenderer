@@ -39,12 +39,6 @@ export const renderBlazeWithData = function renderBlaze(templateFile, templateNa
     return beautifyHtml(include(templateName, data))
 }
 
-
-const renderBlaze = function (templateName) {
-
-}
-
-export default renderBlaze;
 export const parseTemplates = function (templateFiles) {
     const templatesToFilesMap = []
     templateFiles.forEach((templateFile) => {

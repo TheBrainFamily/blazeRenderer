@@ -1,5 +1,5 @@
 {
-  "name": "blazeRenderer",
+  "name": "blaze-renderer",
   "description": "We render blaze templates for you... so Meteor doesn't have to!",
   "version": "0.1.0",
   "scripts": {
