@@ -1,0 +1,11 @@
+<template name="thisInsideEach">
+    <div>
+        This Inside Each
+        {{#each arrayArg}}
+            <span class="should be one or two">{{logoutArray this}}</span>
+        {{/each}}
+        {{#each objectArg}}
+            <span class="should be uno or dos">{{logoutObject this}}</span>
+        {{/each}}
+    </div>
+</template>
