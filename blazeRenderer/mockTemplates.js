@@ -71,6 +71,9 @@ var handler = {
             //TODO not sure if we should bind this...
             callback.apply(this)
           },
+          subscriptionsReady: function() {
+            return true
+          },
         }
       }
       return target[name]
