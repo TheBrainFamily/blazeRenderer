@@ -78,10 +78,14 @@ const renderBlazeWithTemplates = function (templateName, parsedTemplates) {
       data = Object.assign({}, Template[templateName].getHelpers(), {includeReplacement})
 
       const cheerioPotentially = parsedTemplates.find(template => template.templateName === templateName)
+
+      let template;
       if (!cheerioPotentially) {
         console.log("Gandecki templateName", templateName);
+        template = '<div></div>'
+      } else {
+        template = cheerioPotentially.cheerio
       }
-      let template = cheerioPotentially.cheerio
       // console.log(`${templateName} - ${template}`);
 
       let myRegexp = /{{ ?#(?!.*if|.*unless|.*each|.*with)([^ }]*).*/g
