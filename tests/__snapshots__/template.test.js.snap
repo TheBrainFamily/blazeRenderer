@@ -71,6 +71,31 @@ Array [
   },
   Object {
     "cheerio": "<div>
+        each in each
+        {{#each thing}}
+        <div class=\\"outsideNsted\\">{{hasLabel}}</div>
+        <div class=\\"aroundNested\\">{{{ includeReplacement 'inEach'  thingInThing=thingInThing hasLabel=hasLabel }}}</div>
+        {{/each}}
+    </div>",
+    "templateFile": "imports/client/lib/eachInEach.html",
+    "templateName": "eachInEach",
+  },
+  Object {
+    "cheerio": "inEach template
+    <div class=\\"inEachFirst\\">{{hasLabel}}</div>
+    {{#each inEachThing argument}}
+    {{#if false}}
+    if true
+    {{else}}
+    if false
+    <div class=\\"inEachLast\\">{{hasLabel}}</div>
+    {{/if}}
+    {{/each}}",
+    "templateFile": "imports/client/lib/eachInEach.html",
+    "templateName": "inEach",
+  },
+  Object {
+    "cheerio": "<div>
         {{#each forEachOneFirst}}
         <div><span>first {{test}}</span>
         {{#each forEachOneSecond}}
