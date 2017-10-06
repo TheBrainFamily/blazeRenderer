@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`other tests template handles situation where passed parameter name is the same like helper name 1`] = `
+"<div class=\\"higherTemplate\\">
+    <div class=\\"innerTemplate\\">
+        test
+    </div>
+    <div>
+
+        <div class=\\"inside\\">
+            something inside
+        </div>
+
+    </div>
+</div>"
+`;

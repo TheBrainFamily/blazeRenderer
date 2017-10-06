@@ -217,6 +217,29 @@ Array [
     "templateName": "forRegisteredHelper",
   },
   Object {
+    "cheerio": "<div class=\\"higherTemplate\\">
+        {{#templateWithHelperLikeArgument
+        parameterLikeHelper=\\"test\\"
+        }}
+        <div class=\\"inside\\">
+            something inside
+        </div>
+        {{/templateWithHelperLikeArgument}}
+    </div>",
+    "templateFile": "imports/client/lib/sameHelperAndArgumentNameTemplate.html",
+    "templateName": "sameHelperAndArgumentNameTemplate",
+  },
+  Object {
+    "cheerio": "<div class=\\"innerTemplate\\">
+        {{parameterLikeHelper}}
+    </div>
+    <div>
+        {{ Template.contentBlock}}
+    </div>",
+    "templateFile": "imports/client/lib/sameHelperAndArgumentNameTemplate.html",
+    "templateName": "templateWithHelperLikeArgument",
+  },
+  Object {
     "cheerio": "<div>External
     {{#templateWithContentBlockInside passed=innerBlockData someString=\\"someString\\"}}
         <div>div from the parent template inside the nested {{someString}}</div>

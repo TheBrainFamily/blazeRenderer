@@ -1,0 +1,20 @@
+<template name="sameHelperAndArgumentNameTemplate">
+    <div class="higherTemplate">
+        {{#templateWithHelperLikeArgument
+        parameterLikeHelper="test"
+        }}
+        <div class="inside">
+            something inside
+        </div>
+        {{/templateWithHelperLikeArgument}}
+    </div>
+</template>
+
+<template name="templateWithHelperLikeArgument">
+    <div class="innerTemplate">
+        {{parameterLikeHelper}}
+    </div>
+    <div>
+        {{> Template.contentBlock}}
+    </div>
+</template>
