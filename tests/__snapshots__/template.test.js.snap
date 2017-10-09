@@ -71,6 +71,31 @@ Array [
   },
   Object {
     "cheerio": "<div>
+        each in each
+        {{#each thing}}
+        <div class=\\"outsideNsted\\">{{hasLabel}}</div>
+        <div class=\\"aroundNested\\">{{{ includeReplacement 'inEach'  thingInThing=thingInThing hasLabel=hasLabel }}}</div>
+        {{/each}}
+    </div>",
+    "templateFile": "imports/client/lib/eachInEach.html",
+    "templateName": "eachInEach",
+  },
+  Object {
+    "cheerio": "inEach template
+    <div class=\\"inEachFirst\\">{{hasLabel}}</div>
+    {{#each inEachThing argument}}
+    {{#if false}}
+    if true
+    {{else}}
+    if false
+    <div class=\\"inEachLast\\">{{hasLabel}}</div>
+    {{/if}}
+    {{/each}}",
+    "templateFile": "imports/client/lib/eachInEach.html",
+    "templateName": "inEach",
+  },
+  Object {
+    "cheerio": "<div>
         {{#each forEachOneFirst}}
         <div><span>first {{test}}</span>
         {{#each forEachOneSecond}}
@@ -216,6 +241,29 @@ Array [
             </div>",
     "templateFile": "imports/client/lib/templateWithContentBlock.html",
     "templateName": "templateWithContentBlockInside",
+  },
+  Object {
+    "cheerio": "<div class=\\"thisInsideWith\\">
+        This Inside With
+        {{#with returnArray}}
+            <div class=\\"canIterateOverThisInWith\\">
+                {{#each _myOwnThis}}
+                    <span class=\\"firstName or secondName\\">{{name}}</span>
+                {{/each}}
+            </div>
+        {{/with}}
+    </div>
+    <div class=\\"thisInsideEach\\">
+        This Inside Each
+        {{#each arrayArg}}
+        <span class=\\"should be one or two\\">{{logoutArray _myOwnThis}}</span>
+        {{/each}}
+        {{#each objectArg}}
+        <span class=\\"should be uno or dos\\">{{logoutObject _myOwnThis}}</span>
+        {{/each}}
+    </div>",
+    "templateFile": "imports/client/lib/thisInsideEach.html",
+    "templateName": "thisInsideEach",
   },
   Object {
     "cheerio": "<div>
@@ -413,6 +461,27 @@ exports[`renders templates in file without data implicitly passed to it 1`] = `
 exports[`renders templates included cross-files 1`] = `
 "From one 2
 <div>this is from nested template</div>"
+`;
+
+exports[`should change this value when operating inside each or with block 1`] = `
+"<div class=\\"thisInsideWith\\">
+    This Inside With
+
+    <div class=\\"canIterateOverThisInWith\\">
+        <span class=\\should be one or two\\">firstName</span>
+        <span class=\\should be one or two\\">secondName</span>
+    </div>
+
+</div>
+<div class=\\"thisInsideEach\\">
+    This Inside Each
+
+    <span class=\\"should be one or two\\">one</span>
+
+    <span class=\\"should be one or two\\">two</span>
+
+
+</div>"
 `;
 
 exports[`should have access to functions added by registerHelper 1`] = `

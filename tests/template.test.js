@@ -84,7 +84,7 @@ it('template renders contentBlock in right order', () => {
   expect(renderBlaze('toTable')).toMatchSnapshot()
 })
 
-it('should change this when operating inside each block', () => {
+it('should change this value when operating inside each or with block', () => {
   require('./thisInsideEach')
   expect(renderBlaze('thisInsideEach')).toMatchSnapshot()
 })
