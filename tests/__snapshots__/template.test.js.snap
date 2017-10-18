@@ -122,6 +122,15 @@ Array [
   },
   Object {
     "cheerio": "<div>
+    {{#each returnArray}}
+        <span class=\\"printing index\\">{{@index}}</span>
+    {{/each}}
+</div>",
+    "templateFile": "imports/client/lib/indexSupport.html",
+    "templateName": "indexSupport",
+  },
+  Object {
+    "cheerio": "<div>
         <div>{{ hello}} {{nope}}</div>
         {{{ includeReplacement 'nestedTemplate'   }}}
         <ul>
@@ -484,6 +493,14 @@ exports[`template pass arguments properly 1`] = `
     <span>should displayed passed argument:</span>
     <span>this directly - some value</span>
     <span>this through helper - some value</span>
+</div>"
+`;
+
+exports[`template renders @index value inside #each 1`] = `
+"<div>
+    <span class=\\"printing index\\">0</span>
+    <span class=\\"printing index\\">1</span>
+    <span class=\\"printing index\\">2</span>
 </div>"
 `;
 

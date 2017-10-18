@@ -83,6 +83,11 @@ it('template renders contentBlock in right order', () => {
   require('./toTable')
   expect(renderBlaze('toTable')).toMatchSnapshot()
 })
+
+it('template renders @index value inside #each', () => {
+  require('./indexSupport')
+  expect(renderBlaze('indexSupport')).toMatchSnapshot()
+})
 //TODO need a test for skipping the each on undefined.
 
 //TODO need a test for helper with a value of undefined
