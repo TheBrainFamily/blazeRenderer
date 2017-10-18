@@ -81,7 +81,6 @@ const renderBlazeWithTemplates = function (templateName, parsedTemplates) {
 
       let template;
       if (!cheerioPotentially) {
-        console.log("Gandecki templateName", templateName);
         template = '<div></div>'
       } else {
         template = cheerioPotentially.cheerio
