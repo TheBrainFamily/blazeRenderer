@@ -83,6 +83,11 @@ it('template renders contentBlock in right order', () => {
   require('./toTable')
   expect(renderBlaze('toTable')).toMatchSnapshot()
 })
+
+it('should change this value when operating inside each or with block', () => {
+  require('./thisInsideEach')
+  expect(renderBlaze('thisInsideEach')).toMatchSnapshot()
+})
 //TODO need a test for skipping the each on undefined.
 
 //TODO need a test for helper with a value of undefined

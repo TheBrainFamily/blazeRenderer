@@ -274,19 +274,27 @@ BlazeMine.View.prototype.lookup = function (name, _options) {
 
   // 5. look up in a data context
   return function () {
-    var isCalledAsFunction = (arguments.length > 0);
-	var data;
+    var isCalledAsFunction = (arguments.length > 0)
+    var data
 
-	let objectToInclude = {};
-	const gotData = BlazeMine.getData()
-	if (typeof gotData === "string") {
-	  objectToInclude._myOwnData = gotData;
-	} else {
-	  objectToInclude = gotData;
-	}
+    let objectToInclude = {}
+    const gotData = BlazeMine.getData()
+    if (typeof gotData === 'string') {
+      objectToInclude._myOwnData = gotData
+    } else {
+      objectToInclude = gotData
+      if (!objectToInclude) {
+        objectToInclude = {}
+      }
+      if (objectToInclude._myOwnData) {
+        Object.assign(objectToInclude._myOwnData, gotData)
+      } else {
+        objectToInclude._myOwnData = gotData
+      }
+    }
 
     if (parentData.includeReplacement) {
-      data = Object.assign({}, parentData, objectToInclude);
+      data = Object.assign({}, parentData, objectToInclude)
     } else if (parentDataTwo.includeReplacement) {
       data = Object.assign({}, parentData, parentDataTwo, objectToInclude);
     } else if (parentDataThree.includeReplacement) {
@@ -560,7 +568,7 @@ ObserveSequence = {
           activeObserveHandle.stop();
           activeObserveHandle = null;
         }
-
+        // console.log("Gandecki seq", seq);
         if (!seq) {
           seqArray = seqChangedToEmpty(lastSeqArray, callbacks);
         } else if (isArray(seq)) {
@@ -571,6 +579,7 @@ ObserveSequence = {
           seqArray = result[0];
           activeObserveHandle = result[1];
         } else {
+          console.log("Gandecki seq", seq);
           throw badSequenceError();
         }
 
@@ -747,7 +756,23 @@ BlazeMine.Each = function (argFunc, contentFunc, elseFunc) {
     // }, eachView.parentView, 'collection');
 
     //it's ok to skip undefined in blaze.
-    let values = eachView.argVar.get() || []
+    let valuesOrig = eachView.argVar.get() || []
+    // console.log("Gandecki values", values);
+    let values = []
+    if (valuesOrig.constructor !== Array) {
+      // console.log("Gandecki valuesOrig what", valuesOrig);
+      values = Object.assign({}, valuesOrig)
+      delete values._myOwnData
+      const allValues = Object.values(values)
+      values = [];
+      allValues.forEach((sv) => {
+        if (!_.isFunction(sv)) {
+          values.push(sv)
+        }
+      })
+    } else {
+      values = valuesOrig
+    }
     values.forEach(function(item, index) {
           var newItemView;
           if (eachView.variableName) {
@@ -783,7 +808,8 @@ BlazeMine.Each = function (argFunc, contentFunc, elseFunc) {
           }
       })
     eachView.stopHandle = ObserveSequence.observe(function () {
-      return eachView.argVar.get();
+      return [];
+      // return eachView.argVar.get();
     }, {
       // addedAt: function (id, item, index) {
       //   Tracker.nonreactive(function () {
