@@ -468,8 +468,11 @@ exports[`should change this value when operating inside each or with block 1`] =
     This Inside With
 
     <div class=\\"canIterateOverThisInWith\\">
-        <span class=\\should be one or two\\">firstName</span>
-        <span class=\\should be one or two\\">secondName</span>
+
+        <span class=\\"firstName or secondName\\">firstName</span>
+
+        <span class=\\"firstName or secondName\\">secondName</span>
+
     </div>
 
 </div>
@@ -480,6 +483,10 @@ exports[`should change this value when operating inside each or with block 1`] =
 
     <span class=\\"should be one or two\\">two</span>
 
+
+    <span class=\\"should be uno or dos\\">uno</span>
+
+    <span class=\\"should be uno or dos\\">dos</span>
 
 </div>"
 `;
