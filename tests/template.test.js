@@ -83,6 +83,11 @@ it('template renders contentBlock in right order', () => {
   require('./toTable')
   expect(renderBlaze('toTable')).toMatchSnapshot()
 })
+
+it('should execute helper function inside template when calling {{helperName}} not a passed parameter that has the same name - {{helperName}}', () => {
+  require('./renderMultipleSelect')
+  expect(renderBlaze('renderMultipleSelect')).toMatchSnapshot()
+})
 //TODO need a test for skipping the each on undefined.
 
 //TODO need a test for helper with a value of undefined

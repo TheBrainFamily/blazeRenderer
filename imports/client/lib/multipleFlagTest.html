@@ -1,0 +1,9 @@
+<template name='renderMultipleSelect'>
+    <select {{isMultiple}}>
+        <option value="testMultiple">testMultiple</option>
+    </select>
+</template>
+
+<template name="testMultpile">
+    {{>renderMultipleSelect isMultiple=true}}
+</template>

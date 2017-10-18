@@ -156,6 +156,18 @@ Array [
     "templateName": "colorRow",
   },
   Object {
+    "cheerio": "<select {{isMultiple}}>
+        <option value=\\"testMultiple\\">testMultiple</option>
+    </select>",
+    "templateFile": "imports/client/lib/multipleFlagTest.html",
+    "templateName": "renderMultipleSelect",
+  },
+  Object {
+    "cheerio": "{{{ includeReplacement 'renderMultipleSelect'  isMultiple=true }}}",
+    "templateFile": "imports/client/lib/multipleFlagTest.html",
+    "templateName": "testMultpile",
+  },
+  Object {
     "cheerio": "<div>Parent: {{{ includeReplacement 'nestedWithParams'  param=hello test=\\"not hello\\" }}}</div>
     {{#each returnObject}}
     <div>Parent with object params: {{{ includeReplacement 'anotherNestedWithObjectParam'  thing.inside.object }}}</div>
