@@ -208,6 +208,16 @@ Array [
     "templateName": "templateToPassDataTo",
   },
   Object {
+    "cheerio": "{{{ includeReplacement 'passMeIt'  emptiness  }}}",
+    "templateFile": "imports/client/lib/passingEmptyThis.html",
+    "templateName": "passingEmptyThis",
+  },
+  Object {
+    "cheerio": "<div>{{_myOwnThis}}</div>",
+    "templateFile": "imports/client/lib/passingEmptyThis.html",
+    "templateName": "passMeIt",
+  },
+  Object {
     "cheerio": "{{#if areNotEqual 'test' 'abc'}}
     <div>
         <p>Register helper working properly!!!</p>
@@ -241,6 +251,29 @@ Array [
             </div>",
     "templateFile": "imports/client/lib/templateWithContentBlock.html",
     "templateName": "templateWithContentBlockInside",
+  },
+  Object {
+    "cheerio": "<div class=\\"thisInsideWith\\">
+        This Inside With
+        {{#with returnArray}}
+        <div class=\\"canIterateOverThisInWith\\">
+            {{#each _myOwnThis}}
+            <span class=\\"firstName or secondName\\">{{name}}</span>
+            {{/each}}
+        </div>
+        {{/with}}
+    </div>
+    <div class=\\"thisInsideEach\\">
+        This Inside Each
+        {{#each arrayArg}}
+        <span class=\\"should be one or two\\">{{logoutArray _myOwnThis}}</span>
+        {{/each}}
+        {{#each objectArg}}
+        <span class=\\"should be uno or dos\\">{{logoutObject _myOwnThis}}</span>
+        {{/each}}
+    </div>",
+    "templateFile": "imports/client/lib/thisInsideEach.html",
+    "templateName": "thisInsideEach",
   },
   Object {
     "cheerio": "<div>
@@ -440,11 +473,41 @@ exports[`renders templates included cross-files 1`] = `
 <div>this is from nested template</div>"
 `;
 
+exports[`should change this value when operating inside each or with block 1`] = `
+"<div class=\\"thisInsideWith\\">
+    This Inside With
+
+    <div class=\\"canIterateOverThisInWith\\">
+
+        <span class=\\"firstName or secondName\\">firstName</span>
+
+        <span class=\\"firstName or secondName\\">secondName</span>
+
+    </div>
+
+</div>
+<div class=\\"thisInsideEach\\">
+    This Inside Each
+
+    <span class=\\"should be one or two\\">one</span>
+
+    <span class=\\"should be one or two\\">two</span>
+
+
+    <span class=\\"should be uno or dos\\">uno</span>
+
+    <span class=\\"should be uno or dos\\">dos</span>
+
+</div>"
+`;
+
 exports[`should have access to functions added by registerHelper 1`] = `
 "<div>
     <p>Register helper working properly!!!</p>
 </div>"
 `;
+
+exports[`should not set this to an object, when the template is called with an empty context 1`] = `"<div></div>"`;
 
 exports[`template  renders properly 1`] = `
 "<div>

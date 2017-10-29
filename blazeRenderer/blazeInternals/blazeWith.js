@@ -274,16 +274,24 @@ BlazeMine.View.prototype.lookup = function (name, _options) {
 
   // 5. look up in a data context
   return function () {
-    var isCalledAsFunction = (arguments.length > 0);
-	var data;
+    var isCalledAsFunction = (arguments.length > 0)
+    var data
 
-	let objectToInclude = {};
-	const gotData = BlazeMine.getData()
-	if (typeof gotData === "string") {
-	  objectToInclude._myOwnData = gotData;
-	} else {
-	  objectToInclude = gotData;
-	}
+    let objectToInclude = {}
+    const gotData = BlazeMine.getData()
+    if (typeof gotData === 'string') {
+      objectToInclude._myOwnData = gotData
+    } else {
+      objectToInclude = gotData
+      if (!objectToInclude) {
+        objectToInclude = {}
+      }
+      if (objectToInclude._myOwnData) {
+        Object.assign(objectToInclude._myOwnData, gotData)
+      } else {
+        objectToInclude._myOwnData = gotData
+      }
+    }
 
     if (parentData.includeReplacement) {
       data = Object.assign({}, parentData, objectToInclude);
@@ -747,7 +755,20 @@ BlazeMine.Each = function (argFunc, contentFunc, elseFunc) {
     // }, eachView.parentView, 'collection');
 
     //it's ok to skip undefined in blaze.
-    let values = eachView.argVar.get() || []
+    let valuesOrig = eachView.argVar.get() || []
+    let values = []
+    if (!valuesOrig.length && valuesOrig.length !== 0) {
+      const valuesInObject = Object.assign({}, valuesOrig)
+      delete valuesInObject._myOwnData
+      const allValues = Object.values(valuesInObject)
+      allValues.forEach((sv) => {
+        if (!_.isFunction(sv)) {
+          values.push(sv)
+        }
+      })
+    } else {
+      values = valuesOrig
+    }
     values.forEach(function(item, index) {
           var newItemView;
           if (eachView.variableName) {
@@ -783,7 +804,8 @@ BlazeMine.Each = function (argFunc, contentFunc, elseFunc) {
           }
       })
     eachView.stopHandle = ObserveSequence.observe(function () {
-      return eachView.argVar.get();
+      return [];
+      // return eachView.argVar.get();
     }, {
       // addedAt: function (id, item, index) {
       //   Tracker.nonreactive(function () {
@@ -1767,7 +1789,6 @@ BlazeMine._TemplateWith = function (arg, contentFunc, path) {
   };
 
   var wrappedContentFunc = function () {
-    // console.log("Gandecki contentFunc", contentFunc);
     var content = contentFunc.call(this);
 
     // Since we are generating the BlazeMine._TemplateWith view for the

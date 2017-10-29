@@ -1,0 +1,21 @@
+<template name="thisInsideEach">
+    <div class="thisInsideWith">
+        This Inside With
+        {{#with returnArray}}
+        <div class="canIterateOverThisInWith">
+            {{#each this}}
+            <span class="firstName or secondName">{{name}}</span>
+            {{/each}}
+        </div>
+        {{/with}}
+    </div>
+    <div class="thisInsideEach">
+        This Inside Each
+        {{#each arrayArg}}
+        <span class="should be one or two">{{logoutArray this}}</span>
+        {{/each}}
+        {{#each objectArg}}
+        <span class="should be uno or dos">{{logoutObject this}}</span>
+        {{/each}}
+    </div>
+</template>
