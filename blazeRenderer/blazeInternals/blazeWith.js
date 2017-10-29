@@ -70,8 +70,8 @@ BlazeMine._getTemplateHelper = function (template, name, tmplInstanceFunc) {
       template.__helpers.set(name, BlazeMine._OLDSTYLE_HELPER);
       if (! template._NOWARN_OLDSTYLE_HELPERS) {
         BlazeMine._warn('Assigning helper with `' + template.viewName + '.' +
-                    name + ' = ...` is deprecated.  Use `' + template.viewName +
-                    '.helpers(...)` instead.');
+          name + ' = ...` is deprecated.  Use `' + template.viewName +
+          '.helpers(...)` instead.');
       }
     }
     if (template[name] != null) {
@@ -113,9 +113,9 @@ BlazeMine._lexicalBindingLookup = function (view, name) {
       };
     }
   } while (! (currentView.__startsNewLexicalScope &&
-              ! (currentView.parentView &&
-                 currentView.parentView.__childDoesntStartNewLexicalScope))
-           && (currentView = currentView.parentView));
+    ! (currentView.parentView &&
+      currentView.parentView.__childDoesntStartNewLexicalScope))
+  && (currentView = currentView.parentView));
 
   return null;
 };
@@ -309,7 +309,7 @@ BlazeMine.View.prototype.lookup = function (name, _options) {
       } else if (isCalledAsFunction) {
         throw new Error("No such function: " + name);
       } else if (name.charAt(0) === '@' && ((x === null) ||
-                                            (x === undefined))) {
+          (x === undefined))) {
         // Throw an error if the user tries to use a `@directive`
         // that doesn't exist.  We don't implement all directives
         // from Handlebars, so there's a potential for confusion
@@ -357,15 +357,15 @@ BlazeMine.View.prototype.lookupTemplate = function (name) {
 };
 
 BlazeMine._calculateCondition = function (cond) {
-    if (cond instanceof Array && cond.length === 0)
-        cond = false;
-    return !! cond;
+  if (cond instanceof Array && cond.length === 0)
+    cond = false;
+  return !! cond;
 };
 
 BlazeMine.With = function (data, contentFunc, templateName) {
   var view = BlazeMine.View('with', contentFunc);
 
-    view.dataVar = {
+  view.dataVar = {
     set(data) {
       this.data = data;
     },
@@ -446,8 +446,8 @@ BlazeMine.If = function (conditionFunc, contentFunc, elseFunc, _not) {
   view.__conditionVar = conditionVar;
   view.onViewCreated(function () {
     // this.autorun(function () {
-      var cond = BlazeMine._calculateCondition(conditionFunc());
-      conditionVar.set(_not ? (! cond) : cond);
+    var cond = BlazeMine._calculateCondition(conditionFunc());
+    conditionVar.set(_not ? (! cond) : cond);
     // }, this.parentView, 'condition');
   });
 
@@ -557,34 +557,34 @@ ObserveSequence = {
 
     var seq = sequenceFunc();
 
-        var seqArray; // same structure as `lastSeqArray` above.
+    var seqArray; // same structure as `lastSeqArray` above.
 
-        if (activeObserveHandle) {
-          // If we were previously observing a cursor, replace lastSeqArray with
-          // more up-to-date information.  Then stop the old observe.
-          lastSeqArray = _.map(lastSeq.fetch(), function (doc) {
-            return {_id: doc._id, item: doc};
-          });
-          activeObserveHandle.stop();
-          activeObserveHandle = null;
-        }
+    if (activeObserveHandle) {
+      // If we were previously observing a cursor, replace lastSeqArray with
+      // more up-to-date information.  Then stop the old observe.
+      lastSeqArray = _.map(lastSeq.fetch(), function (doc) {
+        return {_id: doc._id, item: doc};
+      });
+      activeObserveHandle.stop();
+      activeObserveHandle = null;
+    }
 
-        if (!seq) {
-          seqArray = seqChangedToEmpty(lastSeqArray, callbacks);
-        } else if (isArray(seq)) {
-          seqArray = seqChangedToArray(lastSeqArray, seq, callbacks);
-        } else if (isStoreCursor(seq)) {
-          var result /* [seqArray, activeObserveHandle] */ =
-                seqChangedToCursor(lastSeqArray, seq, callbacks);
-          seqArray = result[0];
-          activeObserveHandle = result[1];
-        } else {
-          throw badSequenceError();
-        }
+    if (!seq) {
+      seqArray = seqChangedToEmpty(lastSeqArray, callbacks);
+    } else if (isArray(seq)) {
+      seqArray = seqChangedToArray(lastSeqArray, seq, callbacks);
+    } else if (isStoreCursor(seq)) {
+      var result /* [seqArray, activeObserveHandle] */ =
+        seqChangedToCursor(lastSeqArray, seq, callbacks);
+      seqArray = result[0];
+      activeObserveHandle = result[1];
+    } else {
+      throw badSequenceError();
+    }
 
-        // diffArray(lastSeqArray, seqArray, callbacks);
-        lastSeq = seq;
-        lastSeqArray = seqArray;
+    // diffArray(lastSeqArray, seqArray, callbacks);
+    lastSeq = seq;
+    lastSeqArray = seqArray;
 
     return {
       stop: function () {
@@ -612,7 +612,7 @@ ObserveSequence = {
 
 var badSequenceError = function () {
   return new Error("{{#each}} currently only accepts " +
-                   "arrays, cursors or falsey values.");
+    "arrays, cursors or falsey values.");
 };
 
 var isStoreCursor = function (cursor) {
@@ -633,15 +633,15 @@ seqChangedToArray = function (lastSeqArray, array, callbacks) {
       // ensure not empty, since other layers (eg DomRange) assume this as well
       id = "-" + item;
     } else if (typeof item === 'number' ||
-               typeof item === 'boolean' ||
-               item === undefined ||
-               item === null) {
+      typeof item === 'boolean' ||
+      item === undefined ||
+      item === null) {
       id = item;
     } else if (typeof item === 'object') {
       id = (item && ('_id' in item)) ? item._id : index;
     } else {
       throw new Error("{{#each}} doesn't support arrays with " +
-                      "elements of type " + typeof item);
+        "elements of type " + typeof item);
     }
 
     var idString = idStringify(id);
@@ -675,7 +675,7 @@ seqChangedToCursor = function (lastSeqArray, cursor, callbacks) {
     },
     changedAt: function (newDocument, oldDocument, atIndex) {
       callbacks.changedAt(newDocument._id, newDocument, oldDocument,
-                          atIndex);
+        atIndex);
     },
     removedAt: function (oldDocument, atIndex) {
       callbacks.removedAt(oldDocument._id, oldDocument, atIndex);
@@ -744,14 +744,14 @@ BlazeMine.Each = function (argFunc, contentFunc, elseFunc) {
     // Blaze.currentView is always set when it runs (rather than
     // passing argFunc straight to ObserveSequence).
     // eachView.autorun(function () {
-      // argFunc can return either a sequence as is or a wrapper object with a
-      // _sequence and _variable fields set.
-      var arg = argFunc();
-      if (_.isObject(arg) && _.has(arg, '_sequence')) {
-        eachView.variableName = arg._variable || null;
-        arg = arg._sequence;
-      }
-      eachView.argVar.set(arg);
+    // argFunc can return either a sequence as is or a wrapper object with a
+    // _sequence and _variable fields set.
+    var arg = argFunc();
+    if (_.isObject(arg) && _.has(arg, '_sequence')) {
+      eachView.variableName = arg._variable || null;
+      arg = arg._sequence;
+    }
+    eachView.argVar.set(arg);
     // }, eachView.parentView, 'collection');
 
     //it's ok to skip undefined in blaze.
@@ -770,39 +770,39 @@ BlazeMine.Each = function (argFunc, contentFunc, elseFunc) {
       values = valuesOrig
     }
     values.forEach(function(item, index) {
-          var newItemView;
-          if (eachView.variableName) {
-              // new-style #each (as in {{#each item in items}})
-              // doesn't create a new data context
-              newItemView = BlazeMine.View('item', eachView.contentFunc);
-          } else {
-              newItemView = BlazeMine.With(item, eachView.contentFunc);
-          }
+      var newItemView;
+      if (eachView.variableName) {
+        // new-style #each (as in {{#each item in items}})
+        // doesn't create a new data context
+        newItemView = BlazeMine.View('item', eachView.contentFunc);
+      } else {
+        newItemView = BlazeMine.With(item, eachView.contentFunc);
+      }
 
-          eachView.numItems++;
+      eachView.numItems++;
 
-          var bindings = {};
-          bindings['@index'] = index;
-          if (eachView.variableName) {
-              bindings[eachView.variableName] = item;
-          }
-          BlazeMine._attachBindingsToView(bindings, newItemView);
+      var bindings = {};
+      bindings['@index'] = index;
+      if (eachView.variableName) {
+        bindings[eachView.variableName] = item;
+      }
+      BlazeMine._attachBindingsToView(bindings, newItemView);
 
-          if (eachView.expandedValueDep) {
-              eachView.expandedValueDep.changed();
-          } else if (eachView._domrange) {
-              if (eachView.inElseMode) {
-                  eachView._domrange.removeMember(0);
-                  eachView.inElseMode = false;
-              }
+      if (eachView.expandedValueDep) {
+        eachView.expandedValueDep.changed();
+      } else if (eachView._domrange) {
+        if (eachView.inElseMode) {
+          eachView._domrange.removeMember(0);
+          eachView.inElseMode = false;
+        }
 
-              var range = BlazeMine._materializeView(newItemView, eachView);
-              eachView._domrange.addMember(range, index);
-              updateIndices(index);
-          } else {
-              eachView.initialSubviews.splice(index, 0, newItemView);
-          }
-      })
+        var range = BlazeMine._materializeView(newItemView, eachView);
+        eachView._domrange.addMember(range, index);
+        updateIndices(index);
+      } else {
+        eachView.initialSubviews.splice(index, 0, newItemView);
+      }
+    })
     eachView.stopHandle = ObserveSequence.observe(function () {
       return [];
       // return eachView.argVar.get();
@@ -1138,9 +1138,9 @@ BlazeMine.View.prototype.lastNode = function () {
 BlazeMine._fireCallbacks = function (view, which) {
   BlazeMine._withCurrentView(view, function () {
     // Tracker.nonreactive(function fireCallbacks() {
-      var cbs = view._callbacks[which];
-      for (var i = 0, N = (cbs && cbs.length); i < N; i++)
-        cbs[i] && cbs[i].call(view);
+    var cbs = view._callbacks[which];
+    for (var i = 0, N = (cbs && cbs.length); i < N; i++)
+      cbs[i] && cbs[i].call(view);
     // });
   });
 };
@@ -1259,7 +1259,7 @@ BlazeMine._materializeView = function (view, parentView, _workStack, _intoArray)
       });
       // now push the task that calculates initialContents
       _workStack.push(BlazeMine._bind(BlazeMine._materializeDOM, null,
-                             lastHtmljs, initialContents, view, _workStack));
+        lastHtmljs, initialContents, view, _workStack));
     }
   });
 
@@ -1291,7 +1291,7 @@ BlazeMine._expandView = function (view, parentView) {
   var result = BlazeMine._expand(htmljs, view);
 
 
-    BlazeMine._destroyView(view);
+  BlazeMine._destroyView(view);
   // }
 
   return result;
@@ -1376,7 +1376,7 @@ BlazeMine._isContentEqual = function (a, b) {
   } else {
     return (a === b) &&
       ((typeof a === 'number') || (typeof a === 'boolean') ||
-       (typeof a === 'string'));
+        (typeof a === 'string'));
   }
 };
 
@@ -1408,8 +1408,8 @@ var checkRenderContent = function (content) {
     throw new Error("Can't render undefined");
 
   if ((content instanceof BlazeMine.View) ||
-      (content instanceof BlazeMine.Template) ||
-      (typeof content === 'function'))
+    (content instanceof BlazeMine.Template) ||
+    (typeof content === 'function'))
     return;
 
   try {
@@ -1429,7 +1429,7 @@ var checkRenderContent = function (content) {
 var contentAsView = function (content) {
   checkRenderContent(content);
 
-if (content instanceof BlazeMine.View) {
+  if (content instanceof BlazeMine.View) {
     return content;
   } else {
     var func = content;
@@ -1468,7 +1468,7 @@ var contentAsFunc = function (content) {
 BlazeMine.render = function (content, parentElement, nextNode, parentView) {
   if (! parentElement) {
     BlazeMine._warn("BlazeMine.render without a parent element is deprecated. " +
-                "You must specify where to insert the rendered content.");
+      "You must specify where to insert the rendered content.");
   }
 
   if (nextNode instanceof BlazeMine.View) {
@@ -1499,7 +1499,7 @@ BlazeMine.render = function (content, parentElement, nextNode, parentView) {
 
 BlazeMine.insert = function (view, parentElement, nextNode) {
   BlazeMine._warn("BlazeMine.insert has been deprecated.  Specify where to insert the " +
-              "rendered content in the call to BlazeMine.render.");
+    "rendered content in the call to BlazeMine.render.");
 
   if (! (view && (view._domrange instanceof BlazeMine._DOMRange)))
     throw new Error("Expected template rendered with BlazeMine.render");
@@ -1520,7 +1520,7 @@ BlazeMine.renderWithData = function (content, data, parentElement, nextNode, par
   // We defer the handling of optional arguments to BlazeMine.render.  At this point,
   // `nextNode` may actually be `parentView`.
   return BlazeMine.render(BlazeMine._TemplateWith(data, contentAsFunc(content)),
-                          parentElement, nextNode, parentView);
+    parentElement, nextNode, parentView);
 };
 
 /**
@@ -1582,8 +1582,8 @@ BlazeMine._toText = function (htmljs, parentView, textMode) {
   if (! textMode)
     throw new Error("textMode required");
   if (! (textMode === HTMLMine.TEXTMODE.STRING ||
-         textMode === HTMLMine.TEXTMODE.RCDATA ||
-         textMode === HTMLMine.TEXTMODE.ATTRIBUTE))
+      textMode === HTMLMine.TEXTMODE.RCDATA ||
+      textMode === HTMLMine.TEXTMODE.ATTRIBUTE))
     throw new Error("Unknown textMode: " + textMode);
 
   return HTMLMine.toText(BlazeMine._expand(htmljs, parentView), textMode);
@@ -1602,7 +1602,7 @@ BlazeMine.getData = function (elementOrView) {
   } else if (elementOrView instanceof BlazeMine.View) {
     var view = elementOrView;
     theWith = (view.name === 'with' ? view :
-               BlazeMine.getView(view, 'with'));
+      BlazeMine.getView(view, 'with'));
   } else if (typeof elementOrView.nodeType === 'number') {
     if (elementOrView.nodeType !== 1)
       throw new Error("Expected DOM element");
@@ -1617,7 +1617,7 @@ BlazeMine.getData = function (elementOrView) {
 // For back-compat
 BlazeMine.getElementData = function (element) {
   BlazeMine._warn("BlazeMine.getElementData has been deprecated.  Use " +
-              "BlazeMine.getData(element) instead.");
+    "BlazeMine.getData(element) instead.");
 
   if (element.nodeType !== 1)
     throw new Error("Expected DOM element");
