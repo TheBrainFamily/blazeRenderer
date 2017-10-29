@@ -2,36 +2,36 @@ import renderBlaze, { renderBlazeWithData, parseTemplates } from '../blazeRender
 import returnAllTemplates from '../blazeRenderer/returnAllTemplates';
 
 describe('template', function () {
-    it(' renders properly', function () {
-        const helpers = {
-            hello: "is it me you looking for?",
-            nope: function () {
-                return "from a function"
-            },
-            favoriteColors: [{color: "yellow"}, {color: "blue"}, {color: "red"}]
-        };
-        const html = renderBlazeWithData('imports/client/lib/main.html', 'testTemplate', helpers)
-        expect(html).toMatchSnapshot()
-    })
+  it(' renders properly', function () {
+    const helpers = {
+      hello: "is it me you looking for?",
+      nope: function () {
+        return "from a function"
+      },
+      favoriteColors: [{color: "yellow"}, {color: "blue"}, {color: "red"}]
+    };
+    const html = renderBlazeWithData('imports/client/lib/main.html', 'testTemplate', helpers)
+    expect(html).toMatchSnapshot()
+  })
 })
 
 it('parse templates', () => {
-    expect(parseTemplates(returnAllTemplates('imports/'))).toMatchSnapshot()
+  expect(parseTemplates(returnAllTemplates('imports/'))).toMatchSnapshot()
 })
 
 it('renders templates included cross-files', () => {
-    expect(renderBlaze('templateFromExternalFile')).toMatchSnapshot()
+  expect(renderBlaze('templateFromExternalFile')).toMatchSnapshot()
 
 })
 
 it('renders templates in file without data implicitly passed to it', () => {
-    require('./main')
-    expect(renderBlaze('testTemplate')).toMatchSnapshot()
+  require('./main')
+  expect(renderBlaze('testTemplate')).toMatchSnapshot()
 })
 
 it('renders template with onCreated callback and using Template.instance()', () => {
-    require('./onCreatedTemplate')
-    expect(renderBlaze('onCreatedTemplate')).toMatchSnapshot()
+  require('./onCreatedTemplate')
+  expect(renderBlaze('onCreatedTemplate')).toMatchSnapshot()
 })
 
 it('renders template with onCreated callback and using Template.instance() with two templates, one nested', () => {
@@ -75,13 +75,18 @@ it('helpers take arguments properly', () => {
 })
 
 it('template pass arguments properly', () => {
-	require('./passDataToTemplate')
-	expect(renderBlaze('passDataToTemplate')).toMatchSnapshot()
+  require('./passDataToTemplate')
+  expect(renderBlaze('passDataToTemplate')).toMatchSnapshot()
 })
 
 it('template renders contentBlock in right order', () => {
   require('./toTable')
   expect(renderBlaze('toTable')).toMatchSnapshot()
+})
+
+it('should not set this to an object, when the template is called with an empty context', () => {
+  require('./passingEmptyThis')
+  expect(renderBlaze('passingEmptyThis')).toMatchSnapshot()
 })
 
 it('should change this value when operating inside each or with block', () => {

@@ -208,6 +208,16 @@ Array [
     "templateName": "templateToPassDataTo",
   },
   Object {
+    "cheerio": "{{{ includeReplacement 'passMeIt'  emptiness  }}}",
+    "templateFile": "imports/client/lib/passingEmptyThis.html",
+    "templateName": "passingEmptyThis",
+  },
+  Object {
+    "cheerio": "<div>{{_myOwnThis}}</div>",
+    "templateFile": "imports/client/lib/passingEmptyThis.html",
+    "templateName": "passMeIt",
+  },
+  Object {
     "cheerio": "{{#if areNotEqual 'test' 'abc'}}
     <div>
         <p>Register helper working properly!!!</p>
@@ -246,11 +256,11 @@ Array [
     "cheerio": "<div class=\\"thisInsideWith\\">
         This Inside With
         {{#with returnArray}}
-            <div class=\\"canIterateOverThisInWith\\">
-                {{#each _myOwnThis}}
-                    <span class=\\"firstName or secondName\\">{{name}}</span>
-                {{/each}}
-            </div>
+        <div class=\\"canIterateOverThisInWith\\">
+            {{#each _myOwnThis}}
+            <span class=\\"firstName or secondName\\">{{name}}</span>
+            {{/each}}
+        </div>
         {{/with}}
     </div>
     <div class=\\"thisInsideEach\\">
@@ -496,6 +506,8 @@ exports[`should have access to functions added by registerHelper 1`] = `
     <p>Register helper working properly!!!</p>
 </div>"
 `;
+
+exports[`should not set this to an object, when the template is called with an empty context 1`] = `"<div></div>"`;
 
 exports[`template  renders properly 1`] = `
 "<div>

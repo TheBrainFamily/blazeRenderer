@@ -69,7 +69,7 @@ var handler = {
           subscribe() {},
           autorun: function(callback) {
             //TODO not sure if we should bind this...
-            callback.apply(this)
+            callback.apply(this, [{stop: () => {}}])
           },
           subscriptionsReady: function() {
             return true
