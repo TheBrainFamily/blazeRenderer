@@ -45,7 +45,7 @@ export const parseTemplates = function (templateFiles) {
     const template = fs.readFileSync(templateFile)
     //TODO add test cases for multiline {{> }}
     //TODO add test case for a case when {{> were}} <- no space
-    const parsedText = template.toString().replace(/{{(>) ?(Template.contentBlock)/g, '{{ $2').replace(/{{> *([^\s}]*)([^}]*)}}/g, '{{{ includeReplacement \'$1\' $2 }}}').replace(/({{|{{.*( |=))(this)( |}})/g, '$1_myOwnThis$4').replace(/&gt;/g, '>').replace(/&apos;/g, '\'').replace(/&quot;/g, '"')
+    const parsedText = template.toString().replace(/{{(>) ?(Template.contentBlock)/g, '{{ $2').replace(/{{> *([^\s}]*)([^}]*)}}/g, '{{{ includeReplacement \'$1\' $2 }}}').replace(/({{|{{.*( |=))(this)( |}})/g, '$1_myOwnThis$4').replace(/&gt;/g, '>').replace(/&apos;/g, '\'').replace(/&quot;/g, '"').replace(/({{|{{.*( |=))(@index)( |}})/g, '$1_myOwnIndex$4')
 
     const templateRegex = /<template name=("|')(.*)("|')>((.|\n)*?)<\/template>/gm
 
@@ -71,7 +71,16 @@ const renderBlazeWithTemplates = function (templateName, parsedTemplates) {
     if (Array.from(arguments)[1] ) {
       passedArguments = Array.from(arguments)[1]['hash']  ? Array.from(arguments)[1]['hash'] : {_myOwnData: Array.from(arguments)[1]}
     }
-        Template[templateName].helpers = Object.assign({}, Template[templateName].getHelpers(), passedArguments, {isInRole: function() { return true }}, {$or: function(arg1, arg2) { return arg1 || arg2}}, {$gt: function(arg1, arg2) { return arg1 > arg2}}, {$eq: function(arg1, arg2) { return arg1 === arg2 }},{$and: function (arg1, arg2) { return arg1 && arg2 }}, {$exists: function(arg1) { return !!arg1 }}, {pathFor: function(arg1, arg2) { return `${arg1}/${arg2}`}}, {_myOwnThis: function() {return this._myOwnData}}, {$:{Session:{get: function(arg) { return true }}}})
+      Template[templateName].helpers = Object.assign({}, Template[templateName].getHelpers(), passedArguments, {isInRole: function () { return true }}, {$or: function (arg1, arg2) { return arg1 || arg2}}, {$gt: function (arg1, arg2) { return arg1 > arg2}}, {$eq: function (arg1, arg2) { return arg1 === arg2 }}, {$and: function (arg1, arg2) { return arg1 && arg2 }}, {$exists: function (arg1) { return !!arg1 }}, {pathFor: function (arg1, arg2) { return `${arg1}/${arg2}`}}, {
+        _myOwnThis: function () {
+          if (this._myOwnData && this._myOwnData._myOwnThis) {
+            return null
+          } else {
+            return this._myOwnData
+          }
+        }
+      },
+        {$: {Session: {get: function (arg) { return true }}}})
 
       //TODO add test for isInRole, and most probably make this configurable instead of hardcoded.
       // Used in https://github.com/alanning/meteor-roles
@@ -81,7 +90,6 @@ const renderBlazeWithTemplates = function (templateName, parsedTemplates) {
 
       let template;
       if (!cheerioPotentially) {
-        console.log("Gandecki templateName", templateName);
         template = '<div></div>'
       } else {
         template = cheerioPotentially.cheerio

@@ -88,6 +88,16 @@ it('template renders @index value inside #each', () => {
   require('./indexSupport')
   expect(renderBlaze('indexSupport')).toMatchSnapshot()
 })
+
+it('should not set this to an object, when the template is called with an empty context', () => {
+  require('./passingEmptyThis')
+  expect(renderBlaze('passingEmptyThis')).toMatchSnapshot()
+})
+
+it('should change this value when operating inside each or with block', () => {
+  require('./thisInsideEach')
+  expect(renderBlaze('thisInsideEach')).toMatchSnapshot()
+})
 //TODO need a test for skipping the each on undefined.
 
 //TODO need a test for helper with a value of undefined
