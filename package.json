@@ -1,7 +1,7 @@
 {
   "name": "blaze-renderer",
   "description": "We render blaze templates for you... so Meteor doesn't have to!",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "scripts": {
     "start": "meteor run",
     "build": "babel blazeRenderer --out-dir lib --source-maps",
