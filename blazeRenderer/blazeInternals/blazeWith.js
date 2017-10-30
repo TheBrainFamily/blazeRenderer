@@ -293,12 +293,14 @@ BlazeMine.View.prototype.lookup = function (name, _options) {
       }
     }
 
+    const indexData = BlazeMine.getIndex()
+
     if (parentData.includeReplacement) {
-      data = Object.assign({}, parentData, objectToInclude);
+      data = Object.assign({}, parentData, objectToInclude, indexData);
     } else if (parentDataTwo.includeReplacement) {
-      data = Object.assign({}, parentData, parentDataTwo, objectToInclude);
+      data = Object.assign({}, parentData, parentDataTwo, objectToInclude, indexData);
     } else if (parentDataThree.includeReplacement) {
-      data = Object.assign({}, parentData, parentDataTwo, parentDataThree, objectToInclude);
+      data = Object.assign({}, parentData, parentDataTwo, parentDataThree, objectToInclude, indexData);
     } else {
       data = BlazeMine.getData()
     }
@@ -726,7 +728,6 @@ BlazeMine.Each = function (argFunc, contentFunc, elseFunc) {
   eachView.elseFunc = elseFunc;
   eachView.argVar = new ReactiveVar;
   eachView.variableName = null;
-
   // update the @index value in the scope of all subviews in the range
   var updateIndices = function (from, to) {
     if (to === undefined) {
@@ -787,7 +788,7 @@ BlazeMine.Each = function (argFunc, contentFunc, elseFunc) {
         bindings[eachView.variableName] = item;
       }
       BlazeMine._attachBindingsToView(bindings, newItemView);
-
+      
       if (eachView.expandedValueDep) {
         eachView.expandedValueDep.changed();
       } else if (eachView._domrange) {
@@ -1613,6 +1614,21 @@ BlazeMine.getData = function (elementOrView) {
 
   return theWith ? theWith.dataVar.get() : null;
 };
+
+BlazeMine.getIndex = function(elementOrView) {
+  let theWith;
+  if (! elementOrView) {
+    theWith = BlazeMine.getView('with');
+  } else if (elementOrView instanceof BlazeMine.View) {
+    var view = elementOrView;
+    theWith = (view.name === 'with' ? view : BlazeMine.getView(view, 'with'));
+  }
+  let indexToReturn;
+  if (theWith._scopeBindings['@index']) {
+    indexToReturn = {_myOwnIndex: theWith._scopeBindings['@index'].get()}
+  }
+  return indexToReturn
+}
 
 // For back-compat
 BlazeMine.getElementData = function (element) {

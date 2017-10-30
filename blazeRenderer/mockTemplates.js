@@ -73,7 +73,7 @@ var handler = {
           },
           subscriptionsReady: function() {
             return true
-          },
+          }
         }
       }
       return target[name]

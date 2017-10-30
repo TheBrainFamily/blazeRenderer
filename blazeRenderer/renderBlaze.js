@@ -45,7 +45,7 @@ export const parseTemplates = function (templateFiles) {
     const template = fs.readFileSync(templateFile)
     //TODO add test cases for multiline {{> }}
     //TODO add test case for a case when {{> were}} <- no space
-    const parsedText = template.toString().replace(/{{(>) ?(Template.contentBlock)/g, '{{ $2').replace(/{{> *([^\s}]*)([^}]*)}}/g, '{{{ includeReplacement \'$1\' $2 }}}').replace(/({{|{{.*( |=))(this)( |}})/g, '$1_myOwnThis$4').replace(/&gt;/g, '>').replace(/&apos;/g, '\'').replace(/&quot;/g, '"')
+    const parsedText = template.toString().replace(/{{(>) ?(Template.contentBlock)/g, '{{ $2').replace(/{{> *([^\s}]*)([^}]*)}}/g, '{{{ includeReplacement \'$1\' $2 }}}').replace(/({{|{{.*( |=))(this)( |}})/g, '$1_myOwnThis$4').replace(/&gt;/g, '>').replace(/&apos;/g, '\'').replace(/&quot;/g, '"').replace(/({{|{{.*( |=))(@index)( |}})/g, '$1_myOwnIndex$4')
 
     const templateRegex = /<template name=("|')(.*)("|')>((.|\n)*?)<\/template>/gm
 
@@ -79,7 +79,8 @@ const renderBlazeWithTemplates = function (templateName, parsedTemplates) {
             return this._myOwnData
           }
         }
-      }, {$: {Session: {get: function (arg) { return true }}}})
+      },
+        {$: {Session: {get: function (arg) { return true }}}})
 
       //TODO add test for isInRole, and most probably make this configurable instead of hardcoded.
       // Used in https://github.com/alanning/meteor-roles
