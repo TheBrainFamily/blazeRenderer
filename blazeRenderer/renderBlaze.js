@@ -14,7 +14,9 @@ var toHTML = function (data, template, templateName, matchedInsideTemplates) {
       matchedInsideTemplates.forEach(insideTemplate => {
         var compiledInside = compile(insideTemplate.templateInside ,{isBody: true})
         var fnInside = eval(compiledInside)
-        window.hackedInTemplates = {}
+        if (!window.hackedInTemplates) {
+          window.hackedInTemplates = {}
+        }
         window.hackedInTemplates[insideTemplate.name] = fnInside
       })
     }
