@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TwoContentBlocks templates should be able to render two or more templates with contentBlock inside 1`] = `
+"<span class=\\"passedParamTable\\">paramForTable</span>
+
+<span>Inside table</span>
+
+<span class=\\"passedParamModal\\">paramForModal</span>
+
+<span>Inside modal</span>"
+`;
