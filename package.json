@@ -7,7 +7,8 @@
     "build": "babel blazeRenderer --out-dir lib --source-maps",
     "watch": "npm run build -- --watch",
     "test": "jest",
-    "jest-html": "jest-html"
+    "jest-html": "jest-html",
+    "test:watch": "jest --watch"
   },
   "main": "lib/renderBlaze.js",
   "dependencies": {

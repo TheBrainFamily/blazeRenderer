@@ -285,6 +285,28 @@ Array [
     "templateName": "thisInsideEach",
   },
   Object {
+    "cheerio": "{{#table param='paramForTable'}}
+        <span>Inside table</span>
+    {{/table}}
+    {{#modal param='paramForModal'}}
+        <span>Inside modal</span>
+    {{/modal}}",
+    "templateFile": "imports/client/lib/TwoContentBlocks.html",
+    "templateName": "wrapper",
+  },
+  Object {
+    "cheerio": "<span class=\\"passedParamTable\\">{{param}}</span>
+    {{ Template.contentBlock }}",
+    "templateFile": "imports/client/lib/TwoContentBlocks.html",
+    "templateName": "table",
+  },
+  Object {
+    "cheerio": "<span class=\\"passedParamModal\\">{{param}}</span>
+    {{ Template.contentBlock }}",
+    "templateFile": "imports/client/lib/TwoContentBlocks.html",
+    "templateName": "modal",
+  },
+  Object {
     "cheerio": "<div>
         outside with
         {{#with myBeautifulObject}}

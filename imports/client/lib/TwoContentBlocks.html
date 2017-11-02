@@ -1,0 +1,18 @@
+<template name="wrapper">
+    {{#table param='paramForTable'}}
+        <span>Inside table</span>
+    {{/table}}
+    {{#modal param='paramForModal'}}
+        <span>Inside modal</span>
+    {{/modal}}
+</template>
+
+<template name="table">
+    <span class="passedParamTable">{{param}}</span>
+    {{> Template.contentBlock }}
+</template>
+
+<template name="modal">
+    <span class="passedParamModal">{{param}}</span>
+    {{> Template.contentBlock }}
+</template>
