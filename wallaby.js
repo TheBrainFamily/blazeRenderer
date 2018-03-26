@@ -9,6 +9,7 @@ module.exports = function (wallaby) {
             '*.html',
             'tests/**/*.html',
             'imports/**/*.html',
+            'tests/__snapshots__/*.snap',
             { pattern: 'tests/**/*.test.js', ignore: true }
         ],
 
